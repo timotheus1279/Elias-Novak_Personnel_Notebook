@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -4014,6 +4015,1571 @@ function typing(){
    ========================================================= */
 
 init();
+
+/* =========================================================
+   SUPABASE / ACCESS CONTROL / CENTRAL NOTEBOOK
+   ========================================================= */
+
+const SUPABASE_URL =
+    'https://lebmtnhyktxddrpzuadc.supabase.co';
+
+const SUPABASE_PUBLISHABLE_KEY =
+    'sb_publishable_ybfwxGlyySO6l0Tixx7cpg_i3XS0df8';
+
+const SUPABASE_ADMIN_EMAIL =
+    'tim.arnold9612@gmail.com';
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+let supabaseSession = null;
+let isAdmin = false;
+let remoteLoading = false;
+let remoteSaving = false;
+
+
+/* =========================================================
+   ACCESS UI
+   ========================================================= */
+
+function createAccessUI(){
+
+    if(document.getElementById('accessPanel'))
+        return;
+
+    const style =
+        document.createElement('style');
+
+    style.textContent = `
+
+        #accessPanel{
+            position:fixed;
+            inset:0;
+            z-index:100000;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(55,58,58,.42),
+                    rgba(8,9,9,.94)
+                );
+            backdrop-filter:blur(10px);
+        }
+
+        #accessPanel.hidden{
+            display:none;
+        }
+
+        .accessBox{
+            width:min(430px,calc(100vw - 32px));
+            padding:28px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #292c2c,
+                    #181a1a
+                );
+
+            border:1px solid #555a58;
+            border-radius:6px;
+
+            box-shadow:
+                0 25px 80px #000b,
+                inset 0 1px #ffffff0b;
+        }
+
+        .accessLogo{
+            width:72px;
+            height:72px;
+            object-fit:contain;
+            display:block;
+            margin:0 auto 18px;
+
+            filter:
+                grayscale(1)
+                contrast(1.2);
+        }
+
+        .accessTitle{
+            text-align:center;
+            color:#e5e6e3;
+            font:18px Special Elite;
+            letter-spacing:3px;
+        }
+
+        .accessSub{
+            text-align:center;
+            color:#777d7b;
+            font:8px Inter;
+            letter-spacing:1.5px;
+            margin-top:7px;
+            margin-bottom:25px;
+        }
+
+        .accessStatus{
+            padding:9px 10px;
+            margin-bottom:18px;
+
+            border:1px solid #424645;
+            background:#111515;
+
+            color:#858b89;
+            font:9px Special Elite;
+            letter-spacing:1.2px;
+            text-align:center;
+        }
+
+        .accessInput{
+            width:100%;
+            height:40px;
+            margin-bottom:9px;
+
+            border:1px solid #454a49;
+            border-radius:4px;
+
+            background:#111414;
+            color:#ddd;
+
+            padding:0 12px;
+
+            font:11px Inter;
+            outline:none;
+        }
+
+        .accessInput:focus{
+            border-color:#777e7b;
+            box-shadow:0 0 0 1px #777e7b33;
+        }
+
+        .accessButtons{
+            display:flex;
+            gap:8px;
+            margin-top:12px;
+        }
+
+        .accessButtons button{
+            flex:1;
+            height:38px;
+        }
+
+        .accessAdmin{
+            border-color:#666c69;
+        }
+
+        #roleBadge{
+            display:flex;
+            align-items:center;
+            gap:6px;
+
+            padding:5px 8px;
+
+            border:1px solid #454947;
+            border-radius:4px;
+
+            background:#202323;
+
+            color:#8d9491;
+
+            font:8px Special Elite;
+            letter-spacing:1px;
+
+            white-space:nowrap;
+        }
+
+        #roleBadge.admin{
+            color:#d8ddd9;
+            border-color:#6e7773;
+            background:#2b302f;
+        }
+
+        #logoutButton{
+            display:none;
+        }
+
+        #logoutButton.visible{
+            display:block;
+        }
+
+        .viewerLock{
+            opacity:.38 !important;
+            cursor:not-allowed !important;
+        }
+
+        body.viewerMode .obj{
+            cursor:default !important;
+        }
+
+        body.viewerMode .obj .handle,
+        body.viewerMode .obj .rot,
+        body.viewerMode .obj .rotline{
+            display:none !important;
+        }
+
+        body.viewerMode .contenteditable{
+            cursor:default;
+        }
+
+        @media(max-width:900px){
+
+            #roleBadge{
+                font-size:7px;
+                padding:4px 6px;
+            }
+
+            #logoutButton{
+                padding-left:6px!important;
+                padding-right:6px!important;
+            }
+        }
+    `;
+
+    document.head.appendChild(style);
+
+
+    const panel =
+        document.createElement('div');
+
+    panel.id='accessPanel';
+
+    panel.innerHTML = `
+
+        <div class="accessBox">
+
+            <img
+                class="accessLogo"
+                src="${LOGO}"
+                alt="SCP Foundation"
+            >
+
+            <div class="accessTitle">
+                SCP FOUNDATION
+            </div>
+
+            <div class="accessSub">
+                PERSONAL NOTEBOOK // ACCESS CONTROL
+            </div>
+
+            <div
+                id="accessStatus"
+                class="accessStatus"
+            >
+                VIEWER ACCESS
+            </div>
+
+            <input
+                id="loginEmail"
+                class="accessInput"
+                type="email"
+                value="${SUPABASE_ADMIN_EMAIL}"
+                autocomplete="username"
+                placeholder="Foundation e-mail"
+            >
+
+            <input
+                id="loginPassword"
+                class="accessInput"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Password"
+            >
+
+            <div class="accessButtons">
+
+                <button
+                    onclick="enterViewerMode()"
+                >
+                    VIEW AS GUEST
+                </button>
+
+                <button
+                    class="accessAdmin"
+                    onclick="adminLogin()"
+                >
+                    ADMIN LOGIN
+                </button>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(panel);
+
+
+    const logout =
+        document.createElement('button');
+
+    logout.id='logoutButton';
+
+    logout.textContent='LOGOUT';
+
+    logout.onclick=
+        ()=>adminLogout();
+
+    document
+        .querySelector('.topActions')
+        .appendChild(logout);
+
+
+    const badge =
+        document.createElement('div');
+
+    badge.id='roleBadge';
+
+    badge.textContent='VIEWER';
+
+    document
+        .querySelector('.topActions')
+        .insertBefore(
+            badge,
+            document.querySelector('.topActions').firstChild
+        );
+}
+
+
+/* =========================================================
+   ROLE DISPLAY
+   ========================================================= */
+
+function updateRoleUI(){
+
+    const badge =
+        document.getElementById(
+            'roleBadge'
+        );
+
+    const logout =
+        document.getElementById(
+            'logoutButton'
+        );
+
+    if(!badge)return;
+
+    if(isAdmin){
+
+        badge.textContent='● ADMIN';
+        badge.classList.add('admin');
+
+        logout?.classList.add(
+            'visible'
+        );
+
+    }else{
+
+        badge.textContent='○ VIEWER';
+        badge.classList.remove('admin');
+
+        logout?.classList.remove(
+            'visible'
+        );
+    }
+}
+
+
+/* =========================================================
+   EDITING LOCK
+   ========================================================= */
+
+function applyAccessMode(){
+
+    document.body.classList.toggle(
+        'viewerMode',
+        !isAdmin
+    );
+
+
+    /*
+     * Contenteditable
+     */
+
+    document
+        .querySelectorAll(
+            '[contenteditable]'
+        )
+        .forEach(el=>{
+
+            el.contentEditable =
+                isAdmin
+                    ? 'true'
+                    : 'false';
+
+            if(!isAdmin){
+
+                el.classList.add(
+                    'contenteditable'
+                );
+
+            }else{
+
+                el.classList.remove(
+                    'contenteditable'
+                );
+            }
+        });
+
+
+    /*
+     * Main editing controls
+     */
+
+    const editingButtons = [
+
+        '[onclick="newPage()"]',
+        '[onclick="addTextBox()"]',
+        '[onclick="addNote()"]',
+        '[onclick="pickPhoto()"]',
+        '[onclick="saveBook()"]',
+        '[onclick="resetBook()"]'
+
+    ];
+
+    editingButtons.forEach(selector=>{
+
+        document
+            .querySelectorAll(selector)
+            .forEach(btn=>{
+
+                btn.disabled=!isAdmin;
+
+                btn.classList.toggle(
+                    'viewerLock',
+                    !isAdmin
+                );
+            });
+    });
+
+
+    /*
+     * Formatting toolbar
+     */
+
+    document
+        .querySelectorAll(
+            '#formatbar button, #formatbar select, #formatbar input'
+        )
+        .forEach(el=>{
+
+            el.disabled=!isAdmin;
+
+            el.classList.toggle(
+                'viewerLock',
+                !isAdmin
+            );
+        });
+
+
+    /*
+     * Toolbox
+     */
+
+    document
+        .querySelectorAll(
+            '#assets button'
+        )
+        .forEach(el=>{
+
+            el.disabled=!isAdmin;
+
+            el.draggable=isAdmin;
+
+            el.classList.toggle(
+                'viewerLock',
+                !isAdmin
+            );
+        });
+
+
+    /*
+     * Remove selection in viewer mode
+     */
+
+    if(!isAdmin){
+
+        selected?.classList.remove(
+            'selected'
+        );
+
+        selected=null;
+
+        if(draw)
+            stopDraw();
+    }
+
+
+    updateRoleUI();
+}
+
+
+/* =========================================================
+   ENTER VIEWER
+   ========================================================= */
+
+function enterViewerMode(){
+
+    isAdmin=false;
+    supabaseSession=null;
+
+    applyAccessMode();
+
+    document
+        .getElementById('accessPanel')
+        .classList.add('hidden');
+
+    toast(
+        'VIEWER ACCESS GRANTED'
+    );
+}
+
+
+/* =========================================================
+   ADMIN LOGIN
+   ========================================================= */
+
+async function adminLogin(){
+
+    const email =
+        document
+            .getElementById('loginEmail')
+            .value
+            .trim();
+
+    const password =
+        document
+            .getElementById('loginPassword')
+            .value;
+
+    if(!email||!password){
+
+        toast(
+            'EMAIL AND PASSWORD REQUIRED'
+        );
+
+        return;
+    }
+
+
+    if(
+        email.toLowerCase() !==
+        SUPABASE_ADMIN_EMAIL.toLowerCase()
+    ){
+
+        toast(
+            'ADMIN ACCOUNT NOT AUTHORIZED'
+        );
+
+        return;
+    }
+
+
+    const status =
+        document.getElementById(
+            'accessStatus'
+        );
+
+    status.textContent=
+        'AUTHENTICATING...';
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+        });
+
+
+    if(error){
+
+        console.error(
+            'Supabase login:',
+            error
+        );
+
+        status.textContent=
+            'ACCESS DENIED';
+
+        toast(
+            'LOGIN FAILED'
+        );
+
+        return;
+    }
+
+
+    supabaseSession =
+        data.session;
+
+    isAdmin=true;
+
+    document
+        .getElementById('loginPassword')
+        .value='';
+
+
+    applyAccessMode();
+
+
+    document
+        .getElementById('accessPanel')
+        .classList.add('hidden');
+
+
+    status.textContent=
+        'ADMIN ACCESS';
+
+
+    toast(
+        'ADMIN ACCESS GRANTED'
+    );
+
+
+    await loadRemoteNotebook();
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+async function adminLogout(){
+
+    await supabaseClient.auth.signOut();
+
+    supabaseSession=null;
+    isAdmin=false;
+
+    applyAccessMode();
+
+    document
+        .getElementById('accessPanel')
+        .classList.remove('hidden');
+
+    document
+        .getElementById('accessStatus')
+        .textContent=
+            'VIEWER ACCESS';
+
+    toast(
+        'LOGGED OUT'
+    );
+}
+
+
+/* =========================================================
+   LOCAL SAVE ORIGINAL
+   ========================================================= */
+
+const originalSaveBook =
+    saveBook;
+
+
+/*
+ * Replace the original save function.
+ *
+ * It still writes to localStorage exactly as before,
+ * but admins additionally push the notebook to Supabase.
+ */
+
+saveBook = async function(show=true){
+
+    /*
+     * Viewer must never modify the central notebook.
+     */
+
+    if(!isAdmin){
+
+        if(show)
+            toast(
+                'VIEWER MODE — READ ONLY'
+            );
+
+        return;
+    }
+
+
+    /*
+     * Keep original localStorage behavior.
+     */
+
+    try{
+
+        normalizeNotebookText();
+
+        localStorage.setItem(
+            'scpNotebookV8',
+            JSON.stringify({
+                current,
+                pages:
+                    pages.map(cleanHTML)
+            })
+        );
+
+    }catch(e){
+
+        console.warn(
+            'Local save failed:',
+            e
+        );
+    }
+
+
+    await saveRemoteNotebook(show);
+};
+
+
+/* =========================================================
+   REMOTE DATA
+   ========================================================= */
+
+async function getRemoteNotebook(){
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from('notebook_data')
+            .select(
+                'id,owner_id,current_page,pages,updated_at'
+            )
+            .eq('id',1)
+            .maybeSingle();
+
+    if(error){
+
+        console.error(
+            'Remote notebook load:',
+            error
+        );
+
+        return null;
+    }
+
+    return data;
+}
+
+
+/* =========================================================
+   REMOTE SAVE
+   ========================================================= */
+
+async function saveRemoteNotebook(show=true){
+
+    if(!isAdmin||!supabaseSession)
+        return;
+
+    if(remoteSaving)
+        return;
+
+    remoteSaving=true;
+
+
+    try{
+
+        const user =
+            supabaseSession.user;
+
+        const payload={
+            id:1,
+            owner_id:user.id,
+            current_page:current,
+            pages:pages.map(cleanHTML),
+            updated_at:new Date().toISOString()
+        };
+
+
+        const existing =
+            await getRemoteNotebook();
+
+
+        let result;
+
+
+        if(!existing){
+
+            result =
+                await supabaseClient
+                    .from('notebook_data')
+                    .insert(payload);
+
+        }else{
+
+            /*
+             * RLS will only allow the owner to update.
+             */
+
+            result =
+                await supabaseClient
+                    .from('notebook_data')
+                    .update({
+                        current_page:current,
+                        pages:pages.map(cleanHTML),
+                        updated_at:new Date().toISOString()
+                    })
+                    .eq('id',1);
+        }
+
+
+        if(result.error){
+
+            console.error(
+                'Remote notebook save:',
+                result.error
+            );
+
+            toast(
+                'REMOTE SAVE FAILED'
+            );
+
+            return;
+        }
+
+
+        if(show)
+            toast(
+                'SAVED TO FOUNDATION DATABASE'
+            );
+
+    }catch(e){
+
+        console.error(
+            'Remote save exception:',
+            e
+        );
+
+        toast(
+            'REMOTE SAVE FAILED'
+        );
+
+    }finally{
+
+        remoteSaving=false;
+    }
+}
+
+
+/* =========================================================
+   LOAD REMOTE NOTEBOOK
+   ========================================================= */
+
+async function loadRemoteNotebook(){
+
+    if(remoteLoading)
+        return;
+
+    remoteLoading=true;
+
+
+    try{
+
+        const data =
+            await getRemoteNotebook();
+
+
+        /*
+         * No central notebook exists yet.
+         */
+
+        if(!data){
+
+            if(isAdmin){
+
+                toast(
+                    'NO REMOTE NOTEBOOK — READY TO SAVE'
+                );
+
+            }else{
+
+                toast(
+                    'NO REMOTE NOTEBOOK FOUND'
+                );
+            }
+
+            return;
+        }
+
+
+        /*
+         * Do not replace the page while the user
+         * has somehow lost admin access.
+         */
+
+        if(!data.pages||
+           !Array.isArray(data.pages)||
+           !data.pages.length){
+
+            return;
+        }
+
+
+        $('#pages').innerHTML=
+            data.pages.join('');
+
+
+        pages=[
+            ...$('#pages').children
+        ];
+
+
+        current=
+            Math.min(
+                Math.max(
+                    Number(data.current_page)||0,
+                    0
+                ),
+                pages.length-1
+            );
+
+
+        /*
+         * Rebind everything exactly like the original
+         * loadBook() function.
+         */
+
+        pages.forEach(
+            bindPage
+        );
+
+
+        pages.forEach(
+            p=>
+                p.querySelectorAll(
+                    '.obj'
+                ).forEach(
+                    interactive
+                )
+        );
+
+
+        normalizeNotebookText();
+
+        updatePages();
+
+        applyAccessMode();
+
+
+        /*
+         * Remove selection after remote load.
+         */
+
+        selected=null;
+
+
+        toast(
+            'FOUNDATION DATABASE LOADED'
+        );
+
+
+    }catch(e){
+
+        console.error(
+            'Remote notebook load exception:',
+            e
+        );
+
+    }finally{
+
+        remoteLoading=false;
+    }
+}
+
+
+/* =========================================================
+   REMOTE REALTIME SYNC
+   ========================================================= */
+
+function startRealtime(){
+
+    supabaseClient
+        .channel(
+            'scp-notebook-sync'
+        )
+        .on(
+            'postgres_changes',
+            {
+                event:'*',
+                schema:'public',
+                table:'notebook_data',
+                filter:'id=eq.1'
+            },
+            async payload=>{
+
+                /*
+                 * Never overwrite the admin's active editor
+                 * with its own realtime event.
+                 */
+
+                if(isAdmin)
+                    return;
+
+
+                const data =
+                    payload.new;
+
+                if(
+                    !data||
+                    !Array.isArray(
+                        data.pages
+                    )
+                )
+                    return;
+
+
+                $('#pages').innerHTML=
+                    data.pages.join('');
+
+
+                pages=[
+                    ...$('#pages').children
+                ];
+
+
+                current=
+                    Math.min(
+                        Math.max(
+                            Number(
+                                data.current_page
+                            )||0,
+                            0
+                        ),
+                        pages.length-1
+                    );
+
+
+                pages.forEach(
+                    bindPage
+                );
+
+
+                pages.forEach(
+                    p=>
+                        p.querySelectorAll(
+                            '.obj'
+                        ).forEach(
+                            interactive
+                        )
+                );
+
+
+                normalizeNotebookText();
+
+                updatePages();
+
+                applyAccessMode();
+
+
+                toast(
+                    'NOTEBOOK UPDATED'
+                );
+            }
+        )
+        .subscribe();
+}
+
+
+/* =========================================================
+   PROTECTED FUNCTIONS
+   ========================================================= */
+
+
+/*
+ * Store the original functions so we can safely wrap them.
+ */
+
+const _newPage =
+    newPage;
+
+const _addTextBox =
+    addTextBox;
+
+const _addNote =
+    addNote;
+
+const _pickPhoto =
+    pickPhoto;
+
+const _addAsset =
+    addAsset;
+
+const _addSmiley =
+    addSmiley;
+
+const _resetBook =
+    resetBook;
+
+const _format =
+    format;
+
+const _roughFormat =
+    roughFormat;
+
+const _setHighlightColor =
+    setHighlightColor;
+
+const _drawMode =
+    drawMode;
+
+
+/*
+ * PAGE CREATION
+ */
+
+newPage=function(){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    _newPage();
+};
+
+
+/*
+ * TEXT
+ */
+
+addTextBox=function(){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    return _addTextBox();
+};
+
+
+/*
+ * NOTE
+ */
+
+addNote=function(...args){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    return _addNote(...args);
+};
+
+
+/*
+ * POLAROID
+ */
+
+pickPhoto=function(){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    _pickPhoto();
+};
+
+
+/*
+ * TOOLBOX
+ */
+
+addAsset=function(...args){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    return _addAsset(...args);
+};
+
+
+addSmiley=function(){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    return _addSmiley();
+};
+
+
+/*
+ * RESET
+ */
+
+resetBook=function(){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    _resetBook();
+};
+
+
+/*
+ * FORMATTING
+ */
+
+format=function(...args){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    return _format(...args);
+};
+
+
+roughFormat=function(...args){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    return _roughFormat(...args);
+};
+
+
+setHighlightColor=function(...args){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    return _setHighlightColor(...args);
+};
+
+
+/*
+ * DRAWING
+ */
+
+drawMode=function(){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    return _drawMode();
+};
+
+
+/* =========================================================
+   PROTECT OBJECT INTERACTION
+   ========================================================= */
+
+const _startInteraction =
+    startInteraction;
+
+startInteraction=function(e){
+
+    if(!isAdmin){
+
+        e.preventDefault();
+
+        return;
+    }
+
+    return _startInteraction(e);
+};
+
+
+/* =========================================================
+   PROTECT ASSET BUTTON CLICKS
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        '#assets [draggable=true]'
+    )
+    .forEach(button=>{
+
+        button.addEventListener(
+            'click',
+            e=>{
+
+                if(!isAdmin){
+
+                    e.preventDefault();
+
+                    e.stopImmediatePropagation();
+
+                    toast(
+                        'ADMIN ACCESS REQUIRED'
+                    );
+                }
+            },
+            true
+        );
+    });
+
+
+/* =========================================================
+   PROTECT DROP
+   ========================================================= */
+
+document
+    .querySelectorAll(
+        '.page-sheet'
+    )
+    .forEach(p=>{
+
+        p.addEventListener(
+            'drop',
+            e=>{
+
+                if(!isAdmin){
+
+                    e.preventDefault();
+
+                    e.stopImmediatePropagation();
+                }
+            },
+            true
+        );
+    });
+
+
+/* =========================================================
+   PROTECT KEYBOARD EDITING
+   ========================================================= */
+
+document.addEventListener(
+    'keydown',
+    e=>{
+
+        if(isAdmin)
+            return;
+
+
+        /*
+         * Never delete objects as viewer.
+         */
+
+        if(
+            e.key==='Delete'&&
+            selected
+        ){
+
+            e.preventDefault();
+
+            e.stopImmediatePropagation();
+
+            selected?.classList.remove(
+                'selected'
+            );
+
+            selected=null;
+
+            toast(
+                'VIEWER MODE — READ ONLY'
+            );
+        }
+
+
+        /*
+         * Never duplicate objects as viewer.
+         */
+
+        if(
+            (e.ctrlKey||e.metaKey)&&
+            e.key.toLowerCase()==='d'
+        ){
+
+            e.preventDefault();
+
+            e.stopImmediatePropagation();
+        }
+
+
+        /*
+         * Never save manually as viewer.
+         */
+
+        if(
+            (e.ctrlKey||e.metaKey)&&
+            e.key.toLowerCase()==='s'
+        ){
+
+            e.preventDefault();
+
+            e.stopImmediatePropagation();
+
+            toast(
+                'VIEWER MODE — READ ONLY'
+            );
+        }
+
+    },
+    true
+);
+
+
+/* =========================================================
+   AUTH STATE
+   ========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+    async (event, session)=>{
+
+        supabaseSession=session;
+
+
+        if(
+            session?.user?.email?.toLowerCase()===
+            SUPABASE_ADMIN_EMAIL.toLowerCase()
+        ){
+
+            isAdmin=true;
+
+            applyAccessMode();
+
+            document
+                .getElementById(
+                    'accessPanel'
+                )
+                ?.classList.add('hidden');
+
+            /*
+             * Wait a tick so Supabase's auth state
+             * has finished propagating.
+             */
+
+            setTimeout(
+                ()=>loadRemoteNotebook(),
+                0
+            );
+
+        }else{
+
+            isAdmin=false;
+
+            applyAccessMode();
+        }
+    }
+);
+
+
+/* =========================================================
+   ACCESS INITIALIZATION
+   ========================================================= */
+
+async function initializeAccess(){
+
+    createAccessUI();
+
+    applyAccessMode();
+
+    startRealtime();
+
+
+    const {
+        data
+    } =
+        await supabaseClient.auth.getSession();
+
+
+    if(
+        data?.session?.user?.email?.toLowerCase()===
+        SUPABASE_ADMIN_EMAIL.toLowerCase()
+    ){
+
+        supabaseSession=
+            data.session;
+
+        isAdmin=true;
+
+        applyAccessMode();
+
+        document
+            .getElementById(
+                'accessPanel'
+            )
+            .classList.add('hidden');
+
+        await loadRemoteNotebook();
+
+    }else{
+
+        isAdmin=false;
+
+        applyAccessMode();
+
+        document
+            .getElementById(
+                'accessPanel'
+            )
+            .classList.remove('hidden');
+    }
+}
+
+
+/* =========================================================
+   START ACCESS SYSTEM
+   ========================================================= */
+
+initializeAccess();
 
 </script>
 
