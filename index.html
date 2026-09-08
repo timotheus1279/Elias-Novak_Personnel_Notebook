@@ -4,759 +4,4018 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SCP Personal Notebook — Physical Edition V6</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&family=Indie+Flower&family=Patrick+Hand&family=Shadows+Into+Light&family=Special+Elite&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{font-family:Inter,Arial,sans-serif;background:#2b1b12;color:#171512}
-body:before{content:"";position:fixed;inset:-3%;z-index:-5;background:
-radial-gradient(ellipse at 72% 17%,#f7d6a735 0 5%,transparent 24%),
-radial-gradient(ellipse at 18% 88%,#00000055 0 16%,transparent 39%),
-linear-gradient(104deg,#24140d 0%,#4b2d1b 22%,#70472a 50%,#4b2b19 76%,#21130c 100%);}
-body:after{content:"";position:fixed;inset:0;z-index:-4;pointer-events:none;background:
-repeating-linear-gradient(1deg,transparent 0 7px,#160c071c 8px,#8e5a3414 9px,transparent 12px),
-repeating-linear-gradient(92deg,transparent 0 23px,#0f090615 24px,#d09a5b12 25px,transparent 29px),
-radial-gradient(ellipse at 50% 45%,transparent 0 34%,#0b0604aa 88%);
-filter:contrast(1.08) saturate(.92);}
-.deskFiber{position:fixed;inset:0;z-index:-2;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.012) 4px,transparent 5px),repeating-linear-gradient(87deg,transparent 0 11px,rgba(0,0,0,.016) 12px,transparent 14px);mix-blend-mode:overlay;opacity:.9}
-#deskLight{position:fixed;inset:-20%;z-index:-1;pointer-events:none;background:
-radial-gradient(ellipse at 70% 10%,rgba(255,238,190,.30) 0 5%,rgba(255,220,160,.12) 16%,transparent 34%),
-linear-gradient(118deg,transparent 28%,rgba(255,238,195,.08) 43%,rgba(255,246,220,.20) 51%,rgba(255,238,195,.07) 58%,transparent 73%);
-mix-blend-mode:screen;filter:blur(4px)}
-#deskLight:after{content:"";position:absolute;left:56%;top:-20%;width:31%;height:145%;transform:rotate(17deg);background:linear-gradient(90deg,transparent,rgba(255,241,203,.18) 44%,rgba(255,247,222,.24) 50%,transparent 58%);filter:blur(28px)}
-/* REALISTIC DESK SURFACE — layered grain, pores, planks and knots */
-body:before{content:"";position:fixed;inset:-4%;z-index:-5;background:
-radial-gradient(ellipse at 76% 18%,rgba(255,218,164,.18) 0 3%,transparent 18%),
-radial-gradient(ellipse at 15% 82%,rgba(0,0,0,.30) 0 8%,transparent 28%),
-linear-gradient(104deg,#24150d 0%,#3c2416 19%,#674126 43%,#4b2d1b 67%,#28170e 100%);
-filter:saturate(.86) contrast(1.08)}
-body:after{content:"";position:fixed;inset:-5%;z-index:-4;pointer-events:none;background:
-repeating-linear-gradient(2deg,transparent 0 18px,rgba(32,17,8,.18) 19px,transparent 21px,rgba(188,124,66,.08) 23px,transparent 29px),
-repeating-linear-gradient(88deg,transparent 0 53px,rgba(25,13,7,.10) 54px,transparent 57px),
-radial-gradient(ellipse at 23% 29%,transparent 0 2.5%,rgba(35,18,9,.22) 2.7% 3.2%,transparent 3.5% 9%,rgba(35,18,9,.14) 9.2% 10%,transparent 10.3%),
-radial-gradient(ellipse at 79% 68%,transparent 0 3%,rgba(30,15,8,.20) 3.2% 3.8%,transparent 4% 11%,rgba(210,145,82,.08) 11.2% 12%,transparent 12.2%),
-radial-gradient(ellipse at 50% 48%,transparent 0 34%,rgba(10,6,4,.58) 91%);
-background-size:auto,auto,410px 270px,520px 350px,auto;mix-blend-mode:multiply;filter:blur(.25px) contrast(1.16)}
-/* One continuous pen assembly: no detached/floating pieces */
-#deskPen .pen-body{position:absolute;left:42px;top:9px;width:333px;height:23px;border-radius:12px 8px 8px 12px;background:linear-gradient(180deg,#6e7479 0%,#282c30 24%,#111315 51%,#3e4246 77%,#111214 100%);box-shadow:inset 0 2px 2px rgba(255,255,255,.28),inset 0 -2px 2px rgba(0,0,0,.72),0 1px 0 rgba(255,255,255,.08);overflow:visible}
-#deskPen .pen-body:before{content:"";position:absolute;left:30px;top:2px;width:2px;height:19px;background:rgba(255,255,255,.22);box-shadow:72px 0 rgba(255,255,255,.07),150px 0 rgba(255,255,255,.05)}
-#deskPen .pen-tip{position:absolute;left:0;top:14px;width:50px;height:13px;background:linear-gradient(90deg,#d1d5d7,#777d81 55%,#363a3d);clip-path:polygon(0 50%,100% 0,100% 100%);border-radius:2px 0 0 2px;z-index:3}
-#deskPen .pen-tip:after{content:"";position:absolute;left:-1px;top:4px;width:11px;height:5px;background:#090a0b;border-radius:50%;box-shadow:0 0 0 1px #0005}
-#deskPen .pen-cap{position:absolute;left:366px;top:7px;width:55px;height:27px;border-radius:5px 10px 10px 5px;background:linear-gradient(90deg,#17191b,#555a5e 38%,#292c30 72%,#111214);box-shadow:inset 0 2px 2px rgba(255,255,255,.18),inset 0 -2px 2px rgba(0,0,0,.7);z-index:3}
-#deskPen .pen-clip{position:absolute;left:325px;top:0;width:55px;height:34px;border:3px solid #b6babd;border-left-color:transparent;border-bottom-color:transparent;border-radius:0 20px 0 0;transform:skewX(-7deg);z-index:4;filter:drop-shadow(0 1px 1px #0005)}
-button,select,input{font:600 10px Inter}button{border:1px solid #4b4b4b;background:linear-gradient(#393939,#1c1c1c);color:#ddd;border-radius:5px;padding:8px 10px;cursor:pointer;letter-spacing:.55px;white-space:nowrap}button:hover{background:#4a4a4a;transform:translateY(-1px)}button.active{background:#ece8df;color:#171717;border-color:#aaa}button.danger{color:#ffb1aa}.sep{width:1px;height:26px;background:#444;margin:0 2px}
-#topbar{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:50000;display:flex;align-items:center;gap:5px;max-width:calc(100vw - 20px);padding:6px 7px;background:#111e;border:1px solid #555;border-radius:8px;box-shadow:0 15px 45px #000b;backdrop-filter:blur(12px)}
-#formatbar{position:fixed;left:50%;top:62px;transform:translateX(-50%);z-index:49999;display:flex;gap:4px;align-items:center;padding:6px;background:#111d;border:1px solid #4c4c4c;border-radius:7px;box-shadow:0 10px 35px #0008;backdrop-filter:blur(10px)}#formatbar select,#formatbar input{height:29px;background:#222;color:#ddd;border:1px solid #444;border-radius:4px;padding:0 7px}.colorpick{width:31px;padding:2px}
-#assets{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:50000;width:178px;max-height:82vh;overflow:auto;padding:9px;background:#111e;border:1px solid #4b4b4b;border-radius:9px;box-shadow:0 18px 50px #000b;backdrop-filter:blur(12px)}#assets h3{margin:4px 3px 6px;font:9px Special Elite;letter-spacing:2px;color:#aaa}.toolGroup{padding:5px 0 7px;border-top:1px solid #ffffff12}.toolGroup:first-of-type{border-top:0}.toolGroupTitle{font:8px Inter;font-weight:700;letter-spacing:1.4px;color:#777;margin:2px 4px 4px;text-transform:uppercase}.tool{width:100%;margin:3px 0;text-align:left;padding:7px 8px;background:linear-gradient(180deg,#303030,#181818);border-color:#4c4c4c}.tool.drag{cursor:grab}.tool.drag:active{cursor:grabbing}.tool:hover{border-color:#777;background:linear-gradient(180deg,#3b3b3b,#202020)}
-#scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;perspective:2800px}
-#bookShadow{position:absolute;width:min(66vw,820px);height:min(90vh,1080px);border-radius:15px;background:#000;filter:blur(34px);opacity:.62;transform:translate(27px,35px) rotate(-.35deg)}#bookShadow:after{content:"";position:absolute;inset:-90px;background:radial-gradient(ellipse at 72% 30%,#ffe5ad22,transparent 36%);filter:blur(25px)}
-#book{position:relative;width:min(59vw,720px);height:min(88vh,1000px);min-width:500px;min-height:690px;transform:rotate(-.25deg);transform-style:preserve-3d}
-#cover{position:absolute;inset:-19px -22px -19px -25px;border-radius:13px;background:radial-gradient(circle at 22% 17%,#fff2 0 2%,transparent 18%),repeating-radial-gradient(ellipse at 30% 40%,#fff2 0 1px,transparent 1px 5px),linear-gradient(135deg,#2c2c2c,#0b0b0b 48%,#202020 75%,#080808);box-shadow:inset 0 0 0 1px #fff2,inset 8px 0 13px #fff1,inset -10px 0 20px #0009;z-index:0}#cover:after{content:"";position:absolute;inset:7px;border:1px solid #fff1;border-radius:9px}
-#stack{position:absolute;inset:0;z-index:1}.stackSheet{position:absolute;inset:5px -8px -7px 5px;border-radius:5px;background:repeating-linear-gradient(0deg,#d3cdbf 0 2px,#c7c1b4 3px);box-shadow:3px 5px 4px #0005}.stackSheet:nth-child(2){inset:8px -12px -10px 8px;opacity:.8}.stackSheet:nth-child(3){inset:11px -15px -13px 11px;opacity:.55}
-#pages{position:absolute;inset:0;z-index:10;transform-style:preserve-3d;isolation:isolate;overflow:visible}
-.page-sheet{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;transition:transform .92s cubic-bezier(.58,.08,.22,1),box-shadow .92s ease;will-change:transform;pointer-events:none;backface-visibility:visible;contain:paint;overflow:visible}.page-sheet.flipped{transform:rotateY(-180deg);box-shadow:-28px 0 44px #0004}.page-sheet.turning{box-shadow:20px 0 45px #0008}.page-sheet.behind{z-index:1!important}.page-sheet.frontmost{z-index:9000!important}.page-sheet.under-turn{z-index:8000!important}.page-sheet.turning{pointer-events:none!important}.page-sheet.active{pointer-events:auto}.page-sheet.turning:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.18),transparent 12%,transparent 68%,rgba(0,0,0,.20));opacity:.8;transform:translateZ(1px);z-index:20}.page-sheet.flipped:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.14),transparent 16%,rgba(0,0,0,.06));opacity:.55}
-.face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;transform-style:preserve-3d;border-radius:4px;background:radial-gradient(ellipse at 20% 15%,#fff9,transparent 42%),repeating-linear-gradient(0deg,#654f3210 0 1px,transparent 1px 4px),repeating-linear-gradient(92deg,transparent 0 3px,#654f3208 4px,transparent 5px),linear-gradient(90deg,#eee8d8,#f6f1e5 48%,#e9e2d3);border:1px solid #654f3220;box-shadow:inset 0 0 35px #5b432018,0 4px 7px #0002;backface-visibility:hidden}.face:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 10% 90%,#70451c09,transparent 16%),radial-gradient(circle at 90% 10%,#70451c07,transparent 15%);mix-blend-mode:multiply}.face:after{content:"";position:absolute;right:0;top:0;bottom:0;width:27px;background:linear-gradient(90deg,transparent,#4c382018);pointer-events:none}.back{transform:rotateY(180deg);background:linear-gradient(90deg,#ded7c7,#eee7d8 50%,#ddd6c6)}
-.back .backmark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#0002;font:11px Special Elite;letter-spacing:4px;transform:rotate(180deg)}
-.content{position:absolute;inset:26px 25px 25px 42px;overflow:auto;z-index:2;scrollbar-width:thin;scrollbar-color:#8f8b84 transparent}.content::-webkit-scrollbar{width:6px}.content::-webkit-scrollbar-thumb{background:#999;border-radius:20px}
-.logo{width:140px;height:140px;object-fit:contain;filter:grayscale(1) contrast(1.15) drop-shadow(0 3px 2px #0003)}.title{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center}.ft{font:31px Special Elite;letter-spacing:4px}.sub{font:10px Inter;letter-spacing:4px;color:#555;margin:5px 0 42px}.meta{width:80%;display:grid;gap:16px}.row{display:grid;grid-template-columns:135px 1fr;border-bottom:1px solid #0003;padding-bottom:5px}.label{font:11px Special Elite;letter-spacing:2px}.value{font:25px Caveat;min-height:27px;outline:none}
-.note{height:100%;display:flex;flex-direction:column}.head{display:grid;grid-template-columns:1fr 150px;gap:15px;border-bottom:1px solid #0003;padding-bottom:7px;margin-bottom:10px}.ntitle{font:32px Caveat;font-weight:600;outline:none}.date{font:21px Caveat;text-align:right;outline:none}.writing{font:27px/1.38 Caveat;outline:none;white-space:pre-wrap;overflow-wrap:anywhere;min-height:calc(100% - 65px);padding-bottom:90px}.writing:empty:before{content:"Begin writing...";color:#0003}.page-lines .writing{background:repeating-linear-gradient(to bottom,transparent 0 36px,#35527b16 37px,#35527b16 38px);background-position:0 4px}.margin-line{position:absolute;left:34px;top:0;bottom:0;width:1px;background:#a63e3e25;pointer-events:none}.pno{position:absolute;bottom:8px;right:25px;color:#0005;font:9px Special Elite;z-index:5}.curl{position:absolute;right:0;bottom:0;width:105px;height:105px;background:linear-gradient(135deg,transparent 49%,#0001 50%,#fff9 62%,transparent 63%);pointer-events:none}
-/* objects */
-.obj{position:absolute;z-index:40;user-select:none;touch-action:none;transform-origin:center;cursor:grab}.obj.selected{outline:1px dashed #2228}.obj img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none}.handle{display:none;position:absolute;width:10px;height:10px;background:#f5f0e4;border:1px solid #111;z-index:20}.selected .handle{display:block}.tl{left:-6px;top:-6px;cursor:nwse-resize}.tr{right:-6px;top:-6px;cursor:nesw-resize}.bl{left:-6px;bottom:-6px;cursor:nesw-resize}.br{right:-6px;bottom:-6px;cursor:nwse-resize}.rotline{display:none;position:absolute;left:50%;top:-25px;width:1px;height:20px;background:#111}.selected .rotline{display:block}.rot{display:none;position:absolute;left:50%;top:-39px;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;background:#f5f0e4;border:1px solid #111;cursor:grab}.selected .rot{display:block}
-.textbox{min-width:150px;min-height:48px;padding:5px 8px;font:28px/1.15 Caveat;color:#171717;outline:none;background:transparent;white-space:pre-wrap}.selected .textbox{outline:1px dashed #2226}.highlightBlock{padding:0 3px;background:linear-gradient(176deg,transparent 13%,var(--hl,#f0d95b99) 15% 32%,transparent 34%,var(--hl,#f0d95b99) 36% 72%,transparent 76%);font:28px Caveat;transform:rotate(-.25deg);display:inline-block}.rough-highlight{position:relative;padding:0 2px;background:linear-gradient(176deg,transparent 7%,var(--mark,#f4dc4eb8) 10%,var(--mark,#f4dc4eb8) 28%,transparent 31%,var(--mark,#f4dc4eb8) 34%,var(--mark,#f4dc4eb8) 70%,transparent 76%);box-decoration-break:clone;-webkit-box-decoration-break:clone}.rough-underline{position:relative;text-decoration:none}.rough-underline:after{content:"";position:absolute;left:-1%;right:-2%;bottom:-2px;height:5px;background:#1e1b18d9;clip-path:polygon(0 42%,12% 25%,25% 48%,39% 19%,52% 43%,65% 27%,79% 50%,91% 29%,100% 42%,100% 68%,90% 58%,79% 76%,66% 54%,52% 73%,39% 49%,25% 72%,12% 53%,0 66%);transform:rotate(-.8deg);border-radius:4px}.rough-cross{position:relative;text-decoration:none}.rough-cross:after{content:"";position:absolute;left:-4%;right:-5%;top:8%;height:88%;pointer-events:none;background:
-linear-gradient(1deg,transparent 0 13%,rgba(12,12,11,.88) 14% 19%,transparent 20% 29%,rgba(15,14,13,.80) 30% 35%,transparent 36% 45%,rgba(10,10,10,.92) 46% 51%,transparent 52% 62%,rgba(18,17,16,.82) 63% 68%,transparent 69% 79%,rgba(12,12,11,.76) 80% 85%,transparent 86%);
-transform:rotate(-.15deg) skewX(-1deg);filter:blur(.12px);mix-blend-mode:multiply}.scribble svg{width:100%;height:100%;overflow:visible}.scribble path{fill:none;stroke:#171717;stroke-width:3.2;stroke-linecap:round;opacity:.7}.scribble path.faint{stroke-width:2;opacity:.38}.scribble path.heavy{stroke-width:4.8;opacity:.82}.noteObj{width:330px;min-height:225px;padding:24px 24px 30px;background:linear-gradient(135deg,#f8edbb,#e9d994 62%,#cdb767);border:1px solid #a28b4d66;box-shadow:2px 9px 15px #0005,inset 0 0 25px #7b621c18;transform:rotate(-2deg);overflow:hidden}.noteObj:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#6e541d0b 0 1px,transparent 1px 4px),radial-gradient(circle at 20% 30%,#fff5 0 1px,transparent 2px);pointer-events:none}.noteObj:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:16px;background:linear-gradient(135deg,transparent 0 8%,#e8d58a 9% 16%,transparent 17% 24%,#e8d58a 25% 34%,transparent 35% 42%,#e8d58a 43% 52%,transparent 53% 60%,#e8d58a 61% 70%,transparent 71% 78%,#e8d58a 79% 88%,transparent 89%)}.noteObj .noteHead{font:13px Special Elite;letter-spacing:2px;border-bottom:1px solid #6c5b2c55;padding-bottom:5px;margin-bottom:8px}.noteObj .noteText{font:24px/1.25 "Patrick Hand";outline:none;min-height:140px;white-space:pre-wrap;position:relative;z-index:2}.noteObj .noteText:empty:before{content:"Write a personal note…";color:#5c4b244d}.polaroid{width:320px;height:378px;padding:15px 15px 62px;background:linear-gradient(135deg,#fffef7 0,#f4f0df 43%,#e7dfcc 78%,#cfc4aa 100%);border:1px solid #9a907caa;box-shadow:5px 14px 24px #0006,0 1px 0 #fff,0 0 0 1px #6e5a3b16,inset 0 0 25px #6f5a351f;position:relative;overflow:hidden;transform:rotate(-1deg);border-radius:1px}.polaroid:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#6c54301a 0 1px,transparent 1px 5px),repeating-linear-gradient(90deg,transparent 0 4px,#fff2 5px),radial-gradient(circle at 18% 14%,#fff9,transparent 17%),radial-gradient(circle at 84% 82%,#5f42191a,transparent 24%);opacity:.72;pointer-events:none;z-index:7}.polaroid:after{content:"";position:absolute;left:15px;right:15px;top:15px;height:268px;background:linear-gradient(108deg,transparent 16%,#fff7 34%,transparent 49%),linear-gradient(90deg,#d39a5a1d,transparent 28%,#9b4d2412 67%,#5a7c9a16 100%);mix-blend-mode:screen;pointer-events:none;z-index:8}.polaroid .photo{position:relative;width:100%;height:268px;object-fit:cover;filter:sepia(.25) saturate(.74) contrast(.96) brightness(.95) blur(.16px);display:block;z-index:2}.film{position:absolute;left:15px;right:15px;top:15px;height:268px;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 10px,#fff2 11px,#0001 12px,transparent 14px);mix-blend-mode:screen;opacity:.42;z-index:4}.grain{position:absolute;left:15px;right:15px;top:15px;height:268px;pointer-events:none;background:radial-gradient(circle,#fff4 0 1px,transparent 1.4px);background-size:3px 3px;mix-blend-mode:screen;opacity:.38;z-index:9}.age{position:absolute;inset:0;pointer-events:none;background:linear-gradient(102deg,#7d51231b,transparent 25%,#fff4 52%,transparent 70%,#5d3d1a20 100%),radial-gradient(ellipse at 75% 25%,#e3bd7722,transparent 24%);mix-blend-mode:multiply;z-index:10}.polaroid .caption{position:absolute;left:20px;right:20px;bottom:12px;text-align:center;font:24px Caveat;color:#302b23;outline:none;z-index:12}.polaroid .date-stamp{position:absolute;right:12px;bottom:15px;font:10px Special Elite;color:#7b2c2caa;transform:rotate(-5deg);z-index:13}.polaroid .tape-corner{position:absolute;top:-4px;left:92px;width:105px;height:28px;background:linear-gradient(90deg,#d9c48a7a,#f1dda56e,#cbb57575);clip-path:polygon(0 7%,13% 0,27% 5%,42% 2%,57% 6%,73% 1%,88% 5%,100% 2%,97% 91%,82% 97%,67% 93%,53% 100%,39% 94%,24% 98%,10% 92%,0 96%);transform:rotate(-3deg);filter:drop-shadow(0 2px 1px #0003);z-index:14;opacity:.82}.polaroid .wear{position:absolute;inset:15px;background:linear-gradient(90deg,transparent 0 49%,#0000000b 50%,transparent 51%);opacity:.7;pointer-events:none;z-index:11}.assetImg{filter:drop-shadow(1px 3px 2px #0005)}.tape img{filter:contrast(.88) saturate(.58) sepia(.12);mix-blend-mode:multiply;opacity:.9}.blood img{filter:contrast(1.16) saturate(.82) brightness(.72) drop-shadow(0 1px 1px #0004);mix-blend-mode:multiply;opacity:.72}.clip img{filter:drop-shadow(1px 4px 3px #0006)}.clip{z-index:120}.clipFallback{position:absolute;left:20%;top:8%;width:58%;height:84%;border:5px solid #8e9296;border-radius:45% 45% 42% 42%;box-shadow:inset 2px 0 1px #fff7,2px 4px 4px #0005;transform:rotate(8deg);background:transparent}.clipFallback:after{content:"";position:absolute;left:12%;top:4%;width:68%;height:92%;border:4px solid #55595d;border-left-color:transparent;border-bottom-color:transparent;border-radius:50%}.tapeFallback{position:absolute;inset:22% 0;background:linear-gradient(180deg,#f5e6bd66,#d6bd8066);clip-path:polygon(0 8%,8% 0,18% 5%,31% 1%,43% 6%,56% 0,68% 5%,80% 1%,92% 7%,100% 3%,97% 90%,89% 96%,76% 91%,63% 98%,50% 92%,37% 98%,23% 92%,10% 97%,0 90%);box-shadow:0 4px 5px #0003}.bloodFallback{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,#741414b8 0 10%,transparent 11%),radial-gradient(circle at 27% 39%,#861818a8 0 7%,transparent 8%),radial-gradient(circle at 72% 61%,#8b1717a5 0 5%,transparent 6%),radial-gradient(ellipse at 50% 55%,#761212aa 0 22%,transparent 23%);filter:blur(.2px);opacity:.7}.stamp{width:175px;height:70px;border:4px solid #7b2927;color:#7b2927;display:flex;align-items:center;justify-content:center;font:21px Special Elite;letter-spacing:2px;opacity:.7;mix-blend-mode:multiply;box-shadow:inset 0 0 9px #7b292744}.arrow svg{width:100%;height:100%;overflow:visible}.smiley{font:55px Caveat;color:#222}.stain{position:relative;background-image:url("https://aitextured.com/upload/iblock/be8/do9cdevy1ykza9t6iwhjow9x2vifbwvk/subtle_coffee_stain_ring_2.png");background-size:contain;background-repeat:no-repeat;background-position:center;mix-blend-mode:multiply;opacity:.62;filter:sepia(.2) saturate(.7) contrast(.95)}.crossout{font:27px Caveat;position:relative}.crossout:after{content:"";position:absolute;left:-5%;right:-5%;top:4%;height:92%;background:
-repeating-linear-gradient(1deg,transparent 0 7px,rgba(10,10,10,.86) 8px 11px,transparent 12px 17px);transform:rotate(.25deg);filter:blur(.18px);mix-blend-mode:multiply;pointer-events:none}.underline{font:27px Caveat;position:relative}.underline:after{content:"";position:absolute;left:-1%;right:-2%;bottom:-2px;height:5px;background:#333d;clip-path:polygon(0 42%,12% 25%,25% 48%,39% 19%,52% 43%,65% 27%,79% 50%,91% 29%,100% 42%,100% 68%,90% 58%,79% 76%,66% 54%,52% 73%,39% 49%,25% 72%,12% 53%,0 66%);transform:rotate(-.8deg);border-radius:4px}.circleMark{border:4px solid #a22b2baa;border-radius:50%;transform:rotate(-8deg)}
-/* binding */
-#rings{position:absolute;left:-36px;top:22px;bottom:22px;width:49px;z-index:500;pointer-events:none}.ring{position:absolute;left:7px;width:34px;height:14px;border:3px solid #777;border-left-color:#333;border-right-color:#bbb;border-radius:50%;box-shadow:0 1px 2px #000b,inset 0 1px #fff7}
-#toast{position:fixed;left:50%;bottom:17px;transform:translateX(-50%);z-index:70000;padding:8px 12px;border:1px solid #666;border-radius:6px;background:#111e;color:#ddd;font:10px Special Elite;letter-spacing:1px;opacity:0;transition:.2s;pointer-events:none}#toast.show{opacity:1}
-#fileInput,#photoInput{display:none}
-@media(max-width:900px){#assets{right:5px;width:125px}#topbar{transform:translateX(-50%) scale(.9);transform-origin:top center}#formatbar{top:57px;transform:translateX(-50%) scale(.86);transform-origin:top center}#book{transform:scale(.88) rotate(-.25deg);transform-origin:center} }
-
-
-
-
-<style id="v9-terminal-ui">
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box
 }
 
-html,
-body {
-    background: #17191a !important;
-    color: #d6d6d2;
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden
 }
 
-body {
-    overflow: hidden;
-    font-family: Inter, Arial, sans-serif;
-    background:
-    radial-gradient(
-    ellipse at 50% 42%,
-    rgba(58, 66, 68, 0.28) 0%,
-    rgba(25, 29, 30, 0.18) 42%,
-    rgba(8, 9, 10, 0.72) 100%
-    ),
-    #17191a !important;
+body{
+    font-family:Inter,Arial,sans-serif;
+    background:#17191a;
+    color:#d6d6d2
 }
 
-/* SCP-terminal atmosphere: restrained, not a sci-fi wallpaper. */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -10;
-    pointer-events: none;
-    opacity: .34;
+/* =========================================================
+   TERMINAL BACKGROUND
+   ========================================================= */
+
+body:before{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    pointer-events:none;
+    opacity:.34;
     background-image:
-    radial-gradient(
-    circle,
-    rgba(210, 216, 214, .20) .65px,
-    transparent .8px
-    ),
-    linear-gradient(
-    90deg,
-    transparent 0 49.95%,
-    rgba(170, 180, 180, .035) 50%,
-    transparent 50.05%
-);
-background-size: 6px 6px, 100% 100%;
+        radial-gradient(
+            circle,
+            rgba(210,216,214,.20) .65px,
+            transparent .8px
+        ),
+        linear-gradient(
+            90deg,
+            transparent 0 49.95%,
+            rgba(170,180,180,.035) 50%,
+            transparent 50.05%
+        );
+    background-size:6px 6px,100% 100%;
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -9;
-    pointer-events: none;
+body:after{
+    content:"";
+    position:fixed;
+    inset:0;
+    z-index:-9;
+    pointer-events:none;
     background:
-    repeating-linear-gradient(
-    0deg,
-    rgba(255,255,255,.012) 0,
-    rgba(255,255,255,.012) 1px,
-    transparent 1px,
-    transparent 4px
-    ),
-    radial-gradient(
-    ellipse at center,
-    transparent 42%,
-    rgba(0,0,0,.35) 100%
-);
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,.012) 0,
+            rgba(255,255,255,.012) 1px,
+            transparent 1px,
+            transparent 4px
+        ),
+        radial-gradient(
+            ellipse at center,
+            transparent 42%,
+            rgba(0,0,0,.35) 100%
+        );
 }
 
-/* Remove all desk props. */
 #deskLight,
-.deskFiber {
-    position: fixed;
-    inset: 0;
-    z-index: -7;
-    pointer-events: none;
-    opacity: .12;
+.deskFiber{
+    position:fixed;
+    inset:0;
+    z-index:-7;
+    pointer-events:none;
+    opacity:.12;
     background:
-    repeating-linear-gradient(
-    90deg,
-    transparent 0 38px,
-    rgba(255,255,255,.025) 39px,
-    transparent 40px
-);
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 38px,
+            rgba(255,255,255,.025) 39px,
+            transparent 40px
+        );
 }
 
-/* Natural SCP terminal top bar. */
-#topbar {
-    position: fixed;
-    top: 14px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(1120px, calc(100vw - 28px));
-    min-height: 54px;
-    z-index: 50000;
+/* =========================================================
+   GENERAL UI
+   ========================================================= */
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
+button,select,input{
+    font:600 10px Inter
+}
 
-    padding: 8px 10px 8px 14px;
+button{
+    border:1px solid #4b4b4b;
+    background:linear-gradient(#393939,#1c1c1c);
+    color:#ddd;
+    border-radius:5px;
+    padding:8px 10px;
+    cursor:pointer;
+    letter-spacing:.55px;
+    white-space:nowrap
+}
+
+button:hover{
+    background:#4a4a4a;
+    transform:translateY(-1px)
+}
+
+button.active{
+    background:#ece8df;
+    color:#171717;
+    border-color:#aaa
+}
+
+button.danger{
+    color:#ffb1aa
+}
+
+.sep{
+    width:1px;
+    height:26px;
+    background:#444;
+    margin:0 2px
+}
+
+/* =========================================================
+   TOP BAR
+   ========================================================= */
+
+#topbar{
+    position:fixed;
+    top:14px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(1120px,calc(100vw - 28px));
+    min-height:54px;
+    z-index:50000;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+
+    padding:8px 10px 8px 14px;
 
     background:
-    linear-gradient(
-    180deg,
-    rgba(38, 40, 40, .96),
-    rgba(25, 27, 27, .96)
-);
+        linear-gradient(
+            180deg,
+            rgba(38,40,40,.96),
+            rgba(25,27,27,.96)
+        );
 
-border: 1px solid #4a4d4c;
-border-radius: 5px;
+    border:1px solid #4a4d4c;
+    border-radius:5px;
 
-box-shadow:
-0 12px 30px rgba(0,0,0,.42),
-inset 0 1px rgba(255,255,255,.055);
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.42),
+        inset 0 1px rgba(255,255,255,.055);
 
-backdrop-filter: blur(8px);
+    backdrop-filter:blur(8px);
 }
 
-.brandBlock {
-    min-width: 225px;
-    line-height: 1;
+.brandBlock{
+    min-width:225px;
+    line-height:1
 }
 
-.brandMain {
-    font-family: Oswald, Inter, sans-serif;
-    font-size: 14px;
-    letter-spacing: 2.4px;
-    color: #e1e1de;
+.brandMain{
+    font-family:Oswald,Inter,sans-serif;
+    font-size:14px;
+    letter-spacing:2.4px;
+    color:#e1e1de
 }
 
-.brandSub {
-    margin-top: 5px;
-    font: 8px Inter, sans-serif;
-    letter-spacing: 1.3px;
-    color: #777c7c;
+.brandSub{
+    margin-top:5px;
+    font:8px Inter,sans-serif;
+    letter-spacing:1.3px;
+    color:#777c7c
 }
 
-.topActions {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+.topActions{
+    display:flex;
+    align-items:center;
+    gap:5px
 }
 
-.topActions button {
-    min-height: 31px;
-    padding: 6px 9px;
-    border: 1px solid #505453;
-    border-radius: 4px;
-    background: #292c2c;
-    color: #cfd1cf;
-    font: 600 9px Inter, sans-serif;
-    letter-spacing: .8px;
+.topActions button{
+    min-height:31px;
+    padding:6px 9px;
+    border:1px solid #505453;
+    border-radius:4px;
+    background:#292c2c;
+    color:#cfd1cf;
+    font:600 9px Inter,sans-serif;
+    letter-spacing:.8px;
     transition:
-    background .15s ease,
-    border-color .15s ease,
-    transform .15s ease;
+        background .15s ease,
+        border-color .15s ease,
+        transform .15s ease
 }
 
-.topActions button:hover {
-    background: #353939;
-    border-color: #686d6c;
-    transform: translateY(-1px);
+.topActions button:hover{
+    background:#353939;
+    border-color:#686d6c;
+    transform:translateY(-1px)
 }
 
 .topActions button:first-child,
-.topActions button:nth-child(3) {
-    width: 31px;
-    padding: 0;
-    font-size: 20px;
+.topActions button:nth-child(3){
+    width:31px;
+    padding:0;
+    font-size:20px
 }
 
-.topActions #pageLabel {
-    min-width: 68px;
-    text-align: center;
-    color: #969b9a;
-    font: 8px Special Elite, monospace;
-    letter-spacing: 1.5px;
+.topActions #pageLabel{
+    min-width:68px;
+    text-align:center;
+    color:#969b9a;
+    font:8px Special Elite,monospace;
+    letter-spacing:1.5px
 }
 
-.uiSep {
-    width: 1px;
-    height: 23px;
-    margin: 0 3px;
-    background: #4a4d4c;
+.uiSep{
+    width:1px;
+    height:23px;
+    margin:0 3px;
+    background:#4a4d4c
 }
 
-/* Format controls: compact and clearly separated from object tools. */
-#formatbar {
-    position: fixed;
-    top: 78px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 49999;
+/* =========================================================
+   FORMAT BAR
+   ========================================================= */
 
-    display: flex;
-    align-items: center;
-    gap: 4px;
+#formatbar{
+    position:fixed;
+    top:78px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:49999;
 
-    padding: 5px;
+    display:flex;
+    align-items:center;
+    gap:4px;
 
-    background: rgba(28, 30, 30, .94);
-    border: 1px solid #454847;
-    border-radius: 5px;
+    padding:5px;
 
-    box-shadow: 0 9px 24px rgba(0,0,0,.34);
-    backdrop-filter: blur(8px);
+    background:rgba(28,30,30,.94);
+    border:1px solid #454847;
+    border-radius:5px;
+
+    box-shadow:0 9px 24px rgba(0,0,0,.34);
+    backdrop-filter:blur(8px)
 }
 
 #formatbar select,
-#formatbar input {
-    height: 28px;
-    border: 1px solid #484c4b;
-    border-radius: 3px;
-    background: #242727;
-    color: #cfd2d0;
-    font: 9px Inter, sans-serif;
+#formatbar input{
+    height:28px;
+    border:1px solid #484c4b;
+    border-radius:3px;
+    background:#242727;
+    color:#cfd2d0;
+    font:9px Inter,sans-serif
 }
 
-#formatbar select {
-    min-width: 90px;
-    padding: 0 6px;
+#formatbar select{
+    min-width:90px;
+    padding:0 6px
 }
 
-#formatbar input {
-    width: 30px;
-    padding: 2px;
+#formatbar input{
+    width:30px;
+    padding:2px
 }
 
-#formatbar button {
-    height: 28px;
-    min-width: 29px;
-    padding: 4px 7px;
-    border: 1px solid #484c4b;
-    border-radius: 3px;
-    background: #252828;
-    color: #cfd2d0;
-    font: 9px Inter, sans-serif;
-    cursor: pointer;
+#formatbar button{
+    height:28px;
+    min-width:29px;
+    padding:4px 7px;
+    border:1px solid #484c4b;
+    border-radius:3px;
+    background:#252828;
+    color:#cfd2d0;
+    font:9px Inter,sans-serif;
+    cursor:pointer
 }
 
-#formatbar button:hover {
-    background: #373b3a;
+#formatbar button:hover{
+    background:#373b3a
 }
 
-#formatbar button:nth-of-type(5),
-#formatbar button:nth-of-type(6),
-#formatbar button:nth-of-type(7) {
-    letter-spacing: .5px;
+.colorpick{
+    width:30px!important;
+    padding:2px!important
 }
 
-/* Toolbox: quieter, less "button wall". */
-#assets {
-    position: fixed;
-    right: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 50000;
+/* =========================================================
+   TOOLBOX
+   ========================================================= */
 
-    width: 186px;
-    max-height: 76vh;
-    overflow-y: auto;
+#assets{
+    position:fixed;
+    right:14px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:50000;
 
-    padding: 10px;
+    width:186px;
+    max-height:76vh;
+    overflow-y:auto;
 
-    background: rgba(27, 29, 29, .95);
-    border: 1px solid #454847;
-    border-radius: 5px;
+    padding:10px;
 
-    box-shadow: 0 15px 38px rgba(0,0,0,.45);
-    backdrop-filter: blur(8px);
+    background:rgba(27,29,29,.95);
+    border:1px solid #454847;
+    border-radius:5px;
+
+    box-shadow:0 15px 38px rgba(0,0,0,.45);
+    backdrop-filter:blur(8px)
 }
 
-#assets h3 {
-    margin: 3px 3px 9px;
-    color: #d0d2d0;
-    font: 10px Special Elite, monospace;
-    letter-spacing: 2px;
+#assets h3{
+    margin:3px 3px 9px;
+    color:#d0d2d0;
+    font:10px Special Elite,monospace;
+    letter-spacing:2px
 }
 
-.toolGroup {
-    padding: 7px 0 8px;
-    border-top: 1px solid rgba(255,255,255,.055);
+.toolGroup{
+    padding:7px 0 8px;
+    border-top:1px solid rgba(255,255,255,.055)
 }
 
-.toolGroup:first-of-type {
-    border-top: 0;
+.toolGroup:first-of-type{
+    border-top:0
 }
 
-.toolGroupTitle {
-    margin: 1px 4px 5px;
-    color: #737978;
-    font: 700 8px Inter, sans-serif;
-    letter-spacing: 1.5px;
+.toolGroupTitle{
+    margin:1px 4px 5px;
+    color:#737978;
+    font:700 8px Inter,sans-serif;
+    letter-spacing:1.5px
 }
 
-.tool {
-    width: 100%;
-    margin: 2px 0;
-    padding: 7px 8px;
-
-    border: 1px solid #414544;
-    border-radius: 3px;
-
-    background: #242727;
-    color: #bfc2c0;
-
-    text-align: left;
-    font: 9px Inter, sans-serif;
-    letter-spacing: .35px;
-
-    cursor: pointer;
+.tool{
+    width:100%;
+    margin:2px 0;
+    padding:7px 8px;
+    border:1px solid #414544;
+    border-radius:3px;
+    background:#242727;
+    color:#bfc2c0;
+    text-align:left;
+    font:9px Inter,sans-serif;
+    letter-spacing:.35px;
+    cursor:pointer;
     transition:
-    background .15s ease,
-    border-color .15s ease,
-    padding-left .15s ease;
+        background .15s ease,
+        border-color .15s ease,
+        padding-left .15s ease
 }
 
-.tool:hover {
-    background: #303433;
-    border-color: #5b605f;
-    padding-left: 10px;
+.tool:hover{
+    background:#303433;
+    border-color:#5b605f;
+    padding-left:10px
 }
 
-/* Make the stage feel like the old SCP diary terminal. */
-#scene {
-    top: 0;
+/* =========================================================
+   BOOK / SCENE
+   ========================================================= */
+
+#scene{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    perspective:2800px
 }
 
-#bookShadow {
-    opacity: .72;
-    filter: blur(30px);
+#bookShadow{
+    position:absolute;
+    width:min(66vw,820px);
+    height:min(90vh,1080px);
+    border-radius:15px;
+    background:#000;
+    filter:blur(30px);
+    opacity:.72;
+    transform:translate(27px,35px) rotate(-.35deg)
 }
 
-/* Less artificial selection UI. */
-.obj.selected {
-    outline: 1px dashed rgba(40,40,40,.55);
+#bookShadow:after{
+    content:"";
+    position:absolute;
+    inset:-90px;
+    background:radial-gradient(
+        ellipse at 72% 30%,
+        #ffe5ad22,
+        transparent 36%
+    );
+    filter:blur(25px)
 }
 
-.handle {
-    background: #eee9dc;
-    border: 1px solid #222;
-    box-shadow: 0 1px 2px rgba(0,0,0,.3);
+#book{
+    position:relative;
+    width:min(59vw,720px);
+    height:min(88vh,1000px);
+    min-width:500px;
+    min-height:690px;
+    transform:rotate(-.25deg);
+    transform-style:preserve-3d
 }
 
-/* Responsive terminal UI. */
-@media (max-width: 900px) {
-    #topbar {
-        top: 7px;
-        width: calc(100vw - 14px);
-        padding: 7px;
+#cover{
+    position:absolute;
+    inset:-19px -22px -19px -25px;
+    border-radius:13px;
+    background:
+        radial-gradient(circle at 22% 17%,#fff2 0 2%,transparent 18%),
+        repeating-radial-gradient(
+            ellipse at 30% 40%,
+            #fff2 0 1px,
+            transparent 1px 5px
+        ),
+        linear-gradient(
+            135deg,
+            #2c2c2c,
+            #0b0b0b 48%,
+            #202020 75%,
+            #080808
+        );
+    box-shadow:
+        inset 0 0 0 1px #fff2,
+        inset 8px 0 13px #fff1,
+        inset -10px 0 20px #0009;
+    z-index:0
+}
+
+#cover:after{
+    content:"";
+    position:absolute;
+    inset:7px;
+    border:1px solid #fff1;
+    border-radius:9px
+}
+
+#stack{
+    position:absolute;
+    inset:0;
+    z-index:1
+}
+
+.stackSheet{
+    position:absolute;
+    inset:5px -8px -7px 5px;
+    border-radius:5px;
+    background:repeating-linear-gradient(
+        0deg,
+        #d3cdbf 0 2px,
+        #c7c1b4 3px
+    );
+    box-shadow:3px 5px 4px #0005
+}
+
+.stackSheet:nth-child(2){
+    inset:8px -12px -10px 8px;
+    opacity:.8
+}
+
+.stackSheet:nth-child(3){
+    inset:11px -15px -13px 11px;
+    opacity:.55
+}
+
+#pages{
+    position:absolute;
+    inset:0;
+    z-index:10;
+    transform-style:preserve-3d;
+    isolation:isolate;
+    overflow:visible
+}
+
+.page-sheet{
+    position:absolute;
+    inset:0;
+    transform-origin:left center;
+    transform-style:preserve-3d;
+    transition:
+        transform .92s cubic-bezier(.58,.08,.22,1),
+        box-shadow .92s ease;
+    will-change:transform;
+    pointer-events:none;
+    backface-visibility:visible;
+    contain:paint;
+    overflow:visible
+}
+
+.page-sheet.flipped{
+    transform:rotateY(-180deg);
+    box-shadow:-28px 0 44px #0004
+}
+
+.page-sheet.turning{
+    box-shadow:20px 0 45px #0008
+}
+
+.page-sheet.behind{
+    z-index:1!important
+}
+
+.page-sheet.frontmost{
+    z-index:9000!important
+}
+
+.page-sheet.under-turn{
+    z-index:8000!important
+}
+
+.page-sheet.turning{
+    pointer-events:none!important
+}
+
+.page-sheet.active{
+    pointer-events:auto
+}
+
+.page-sheet.turning:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.18),
+            transparent 12%,
+            transparent 68%,
+            rgba(0,0,0,.20)
+        );
+    opacity:.8;
+    transform:translateZ(1px);
+    z-index:20
+}
+
+.page-sheet.flipped:after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.14),
+            transparent 16%,
+            rgba(0,0,0,.06)
+        );
+    opacity:.55
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.face{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    backface-visibility:hidden;
+    transform-style:preserve-3d;
+    border-radius:4px;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 15%,
+            #fff9,
+            transparent 42%
+        ),
+        repeating-linear-gradient(
+            0deg,
+            #654f3210 0 1px,
+            transparent 1px 4px
+        ),
+        repeating-linear-gradient(
+            92deg,
+            transparent 0 3px,
+            #654f3208 4px,
+            transparent 5px
+        ),
+        linear-gradient(
+            90deg,
+            #eee8d8,
+            #f6f1e5 48%,
+            #e9e2d3
+        );
+
+    border:1px solid #654f3220;
+
+    box-shadow:
+        inset 0 0 35px #5b432018,
+        0 4px 7px #0002
+}
+
+.face:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+        radial-gradient(
+            circle at 10% 90%,
+            #70451c09,
+            transparent 16%
+        ),
+        radial-gradient(
+            circle at 90% 10%,
+            #70451c07,
+            transparent 15%
+        );
+    mix-blend-mode:multiply
+}
+
+.face:after{
+    content:"";
+    position:absolute;
+    right:0;
+    top:0;
+    bottom:0;
+    width:27px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #4c382018
+    );
+    pointer-events:none
+}
+
+.back{
+    transform:rotateY(180deg);
+    background:linear-gradient(
+        90deg,
+        #ded7c7,
+        #eee7d8 50%,
+        #ddd6c6
+    )
+}
+
+.back .backmark{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#0002;
+    font:11px Special Elite;
+    letter-spacing:4px;
+    transform:rotate(180deg)
+}
+
+.content{
+    position:absolute;
+    inset:26px 25px 25px 42px;
+    overflow:auto;
+    z-index:2;
+    scrollbar-width:thin;
+    scrollbar-color:#8f8b84 transparent
+}
+
+.content::-webkit-scrollbar{
+    width:6px
+}
+
+.content::-webkit-scrollbar-thumb{
+    background:#999;
+    border-radius:20px
+}
+
+/* =========================================================
+   COVER
+   ========================================================= */
+
+.logo{
+    width:140px;
+    height:140px;
+    object-fit:contain;
+    filter:
+        grayscale(1)
+        contrast(1.15)
+        drop-shadow(0 3px 2px #0003)
+}
+
+.title{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center
+}
+
+.ft{
+    font:31px Special Elite;
+    letter-spacing:4px;
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important
+}
+
+.sub{
+    font:10px Inter;
+    letter-spacing:4px;
+    color:#555;
+    margin:5px 0 42px
+}
+
+.meta{
+    width:80%;
+    display:grid;
+    gap:16px
+}
+
+.row{
+    display:grid;
+    grid-template-columns:135px 1fr;
+    border-bottom:1px solid #0003;
+    padding-bottom:5px
+}
+
+.label{
+    font:11px Special Elite;
+    letter-spacing:2px;
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important
+}
+
+.value{
+    font:25px Caveat;
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+    min-height:27px;
+    outline:none;
+    caret-color:#171717
+}
+
+/* =========================================================
+   NOTE / WRITING
+   ========================================================= */
+
+.note{
+    height:100%;
+    display:flex;
+    flex-direction:column
+}
+
+.head{
+    display:grid;
+    grid-template-columns:1fr 150px;
+    gap:15px;
+    border-bottom:1px solid #0003;
+    padding-bottom:7px;
+    margin-bottom:10px
+}
+
+.ntitle{
+    font:32px Caveat;
+    font-weight:600;
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+    outline:none;
+    caret-color:#171717
+}
+
+.date{
+    font:21px Caveat;
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+    text-align:right;
+    outline:none;
+    caret-color:#171717
+}
+
+.writing{
+    font:27px/1.38 Caveat;
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+    outline:none;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    min-height:calc(100% - 65px);
+    padding-bottom:90px;
+    caret-color:#171717
+}
+
+.writing:empty:before{
+    content:"Begin writing...";
+    color:#0003;
+    -webkit-text-fill-color:#0003
+}
+
+.page-lines .writing{
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0 36px,
+            #35527b16 37px,
+            #35527b16 38px
+        );
+    background-position:0 4px
+}
+
+.margin-line{
+    position:absolute;
+    left:34px;
+    top:0;
+    bottom:0;
+    width:1px;
+    background:#a63e3e25;
+    pointer-events:none
+}
+
+.pno{
+    position:absolute;
+    bottom:8px;
+    right:25px;
+    color:#0005;
+    font:9px Special Elite;
+    z-index:5
+}
+
+.curl{
+    position:absolute;
+    right:0;
+    bottom:0;
+    width:105px;
+    height:105px;
+    background:
+        linear-gradient(
+            135deg,
+            transparent 49%,
+            #0001 50%,
+            #fff9 62%,
+            transparent 63%
+        );
+    pointer-events:none
+}
+
+/* =========================================================
+   OBJECTS
+   ========================================================= */
+
+.obj{
+    position:absolute;
+    z-index:40;
+    user-select:none;
+    touch-action:none;
+    transform-origin:center;
+    cursor:grab
+}
+
+.obj.selected{
+    outline:1px dashed rgba(40,40,40,.55)
+}
+
+.obj img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
+    pointer-events:none
+}
+
+.handle{
+    display:none;
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:#eee9dc;
+    border:1px solid #222;
+    box-shadow:0 1px 2px rgba(0,0,0,.3);
+    z-index:20
+}
+
+.selected .handle{
+    display:block
+}
+
+.tl{
+    left:-6px;
+    top:-6px;
+    cursor:nwse-resize
+}
+
+.tr{
+    right:-6px;
+    top:-6px;
+    cursor:nesw-resize
+}
+
+.bl{
+    left:-6px;
+    bottom:-6px;
+    cursor:nesw-resize
+}
+
+.br{
+    right:-6px;
+    bottom:-6px;
+    cursor:nwse-resize
+}
+
+.rotline{
+    display:none;
+    position:absolute;
+    left:50%;
+    top:-25px;
+    width:1px;
+    height:20px;
+    background:#111
+}
+
+.selected .rotline{
+    display:block
+}
+
+.rot{
+    display:none;
+    position:absolute;
+    left:50%;
+    top:-39px;
+    transform:translateX(-50%);
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#f5f0e4;
+    border:1px solid #111;
+    cursor:grab
+}
+
+.selected .rot{
+    display:block
+}
+
+/* =========================================================
+   TEXT BOX
+   ========================================================= */
+
+.textbox{
+    min-width:150px;
+    min-height:48px;
+    padding:5px 8px;
+    font:28px/1.15 Caveat;
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+    outline:none;
+    background:transparent;
+    white-space:pre-wrap;
+    caret-color:#171717
+}
+
+.selected .textbox{
+    outline:1px dashed #2226
+}
+
+/* =========================================================
+   MARKUP
+   ========================================================= */
+
+.highlightBlock{
+    padding:0 3px;
+    background:
+        linear-gradient(
+            176deg,
+            transparent 13%,
+            var(--hl,#f0d95b99) 15% 32%,
+            transparent 34%,
+            var(--hl,#f0d95b99) 36% 72%,
+            transparent 76%
+        );
+    font:28px Caveat;
+    transform:rotate(-.25deg);
+    display:inline-block
+}
+
+.rough-highlight{
+    position:relative;
+    padding:0 2px;
+    background:
+        linear-gradient(
+            176deg,
+            transparent 7%,
+            var(--mark,#f4dc4eb8) 10%,
+            var(--mark,#f4dc4eb8) 28%,
+            transparent 31%,
+            var(--mark,#f4dc4eb8) 34%,
+            var(--mark,#f4dc4eb8) 70%,
+            transparent 76%
+        );
+    box-decoration-break:clone;
+    -webkit-box-decoration-break:clone
+}
+
+.rough-underline{
+    position:relative;
+    text-decoration:none
+}
+
+.rough-underline:after{
+    content:"";
+    position:absolute;
+    left:-1%;
+    right:-2%;
+    bottom:-2px;
+    height:5px;
+    background:#1e1b18d9;
+    clip-path:polygon(
+        0 42%,12% 25%,25% 48%,39% 19%,52% 43%,
+        65% 27%,79% 50%,91% 29%,100% 42%,100% 68%,
+        90% 58%,79% 76%,66% 54%,52% 73%,39% 49%,
+        25% 72%,12% 53%,0 66%
+    );
+    transform:rotate(-.8deg);
+    border-radius:4px
+}
+
+.rough-cross{
+    position:relative;
+    text-decoration:none
+}
+
+.rough-cross:after{
+    content:"";
+    position:absolute;
+    left:-4%;
+    right:-5%;
+    top:8%;
+    height:88%;
+    pointer-events:none;
+    background:
+        linear-gradient(
+            1deg,
+            transparent 0 13%,
+            rgba(12,12,11,.88) 14% 19%,
+            transparent 20% 29%,
+            rgba(15,14,13,.80) 30% 35%,
+            transparent 36% 45%,
+            rgba(10,10,10,.92) 46% 51%,
+            transparent 52% 62%,
+            rgba(18,17,16,.82) 63% 68%,
+            transparent 69% 79%,
+            rgba(12,12,11,.76) 80% 85%,
+            transparent 86%
+        );
+    transform:rotate(-.15deg) skewX(-1deg);
+    filter:blur(.12px);
+    mix-blend-mode:multiply
+}
+
+.scribble svg{
+    width:100%;
+    height:100%;
+    overflow:visible
+}
+
+.scribble path{
+    fill:none;
+    stroke:#171717;
+    stroke-width:3.2;
+    stroke-linecap:round;
+    opacity:.7
+}
+
+.scribble path.faint{
+    stroke-width:2;
+    opacity:.38
+}
+
+.scribble path.heavy{
+    stroke-width:4.8;
+    opacity:.82
+}
+
+/* =========================================================
+   NOTE OBJECT
+   ========================================================= */
+
+.noteObj{
+    width:330px;
+    min-height:225px;
+    padding:24px 24px 30px;
+    background:
+        linear-gradient(
+            135deg,
+            #f8edbb,
+            #e9d994 62%,
+            #cdb767
+        );
+    border:1px solid #a28b4d66;
+    box-shadow:
+        2px 9px 15px #0005,
+        inset 0 0 25px #7b621c18;
+    transform:rotate(-2deg);
+    overflow:hidden
+}
+
+.noteObj:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #6e541d0b 0 1px,
+            transparent 1px 4px
+        ),
+        radial-gradient(
+            circle at 20% 30%,
+            #fff5 0 1px,
+            transparent 2px
+        );
+    pointer-events:none
+}
+
+.noteObj:after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:-1px;
+    height:16px;
+    background:
+        linear-gradient(
+            135deg,
+            transparent 0 8%,
+            #e8d58a 9% 16%,
+            transparent 17% 24%,
+            #e8d58a 25% 34%,
+            transparent 35% 42%,
+            #e8d58a 43% 52%,
+            transparent 53% 60%,
+            #e8d58a 61% 70%,
+            transparent 71% 78%,
+            #e8d58a 79% 88%,
+            transparent 89%
+        )
+}
+
+.noteObj .noteHead{
+    font:13px Special Elite;
+    letter-spacing:2px;
+    border-bottom:1px solid #6c5b2c55;
+    padding-bottom:5px;
+    margin-bottom:8px;
+    color:#302b23
+}
+
+.noteObj .noteText{
+    font:24px/1.25 "Patrick Hand";
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+    outline:none;
+    min-height:140px;
+    white-space:pre-wrap;
+    position:relative;
+    z-index:2;
+    caret-color:#171717
+}
+
+.noteObj .noteText:empty:before{
+    content:"Write a personal note…";
+    color:#5c4b244d;
+    -webkit-text-fill-color:#5c4b244d
+}
+
+/* =========================================================
+   POLAROID
+   ========================================================= */
+
+.polaroid{
+    width:320px;
+    height:378px;
+    padding:15px 15px 62px;
+    background:
+        linear-gradient(
+            135deg,
+            #fffef7 0,
+            #f4f0df 43%,
+            #e7dfcc 78%,
+            #cfc4aa 100%
+        );
+    border:1px solid #9a907caa;
+    box-shadow:
+        5px 14px 24px #0006,
+        0 1px 0 #fff,
+        0 0 0 1px #6e5a3b16,
+        inset 0 0 25px #6f5a351f;
+    position:relative;
+    overflow:hidden;
+    transform:rotate(-1deg);
+    border-radius:1px
+}
+
+.polaroid:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #6c54301a 0 1px,
+            transparent 1px 5px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 4px,
+            #fff2 5px
+        ),
+        radial-gradient(
+            circle at 18% 14%,
+            #fff9,
+            transparent 17%
+        ),
+        radial-gradient(
+            circle at 84% 82%,
+            #5f42191a,
+            transparent 24%
+        );
+    opacity:.72;
+    pointer-events:none;
+    z-index:7
+}
+
+.polaroid:after{
+    content:"";
+    position:absolute;
+    left:15px;
+    right:15px;
+    top:15px;
+    height:268px;
+    background:
+        linear-gradient(
+            108deg,
+            transparent 16%,
+            #fff7 34%,
+            transparent 49%
+        ),
+        linear-gradient(
+            90deg,
+            #d39a5a1d,
+            transparent 28%,
+            #9b4d2412 67%,
+            #5a7c9a16 100%
+        );
+    mix-blend-mode:screen;
+    pointer-events:none;
+    z-index:8
+}
+
+.polaroid .photo{
+    position:relative;
+    width:100%;
+    height:268px;
+    object-fit:cover;
+    filter:
+        sepia(.25)
+        saturate(.74)
+        contrast(.96)
+        brightness(.95)
+        blur(.16px);
+    display:block;
+    z-index:2
+}
+
+.film{
+    position:absolute;
+    left:15px;
+    right:15px;
+    top:15px;
+    height:268px;
+    pointer-events:none;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 10px,
+            #fff2 11px,
+            #0001 12px,
+            transparent 14px
+        );
+    mix-blend-mode:screen;
+    opacity:.42;
+    z-index:4
+}
+
+.grain{
+    position:absolute;
+    left:15px;
+    right:15px;
+    top:15px;
+    height:268px;
+    pointer-events:none;
+    background:
+        radial-gradient(
+            circle,
+            #fff4 0 1px,
+            transparent 1.4px
+        );
+    background-size:3px 3px;
+    mix-blend-mode:screen;
+    opacity:.38;
+    z-index:9
+}
+
+.age{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(
+            102deg,
+            #7d51231b,
+            transparent 25%,
+            #fff4 52%,
+            transparent 70%,
+            #5d3d1a20 100%
+        ),
+        radial-gradient(
+            ellipse at 75% 25%,
+            #e3bd7722,
+            transparent 24%
+        );
+    mix-blend-mode:multiply;
+    z-index:10
+}
+
+.polaroid .caption{
+    position:absolute;
+    left:20px;
+    right:20px;
+    bottom:12px;
+    text-align:center;
+    font:24px Caveat;
+    color:#302b23;
+    outline:none;
+    z-index:12
+}
+
+.polaroid .date-stamp{
+    position:absolute;
+    right:12px;
+    bottom:15px;
+    font:10px Special Elite;
+    color:#7b2c2caa;
+    transform:rotate(-5deg);
+    z-index:13
+}
+
+.polaroid .tape-corner{
+    position:absolute;
+    top:-4px;
+    left:92px;
+    width:105px;
+    height:28px;
+    background:
+        linear-gradient(
+            90deg,
+            #d9c48a7a,
+            #f1dda56e,
+            #cbb57575
+        );
+    clip-path:polygon(
+        0 7%,13% 0,27% 5%,42% 2%,57% 6%,73% 1%,
+        88% 5%,100% 2%,97% 91%,82% 97%,67% 93%,
+        53% 100%,39% 94%,24% 98%,10% 92%,0 96%
+    );
+    transform:rotate(-3deg);
+    filter:drop-shadow(0 2px 1px #0003);
+    z-index:14;
+    opacity:.82
+}
+
+.polaroid .wear{
+    position:absolute;
+    inset:15px;
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0 49%,
+            #0000000b 50%,
+            transparent 51%
+        );
+    opacity:.7;
+    pointer-events:none;
+    z-index:11
+}
+
+/* =========================================================
+   ASSETS
+   ========================================================= */
+
+.assetImg{
+    filter:drop-shadow(1px 3px 2px #0005)
+}
+
+.tape img{
+    filter:contrast(.88) saturate(.58) sepia(.12);
+    mix-blend-mode:multiply;
+    opacity:.9
+}
+
+.blood img{
+    filter:
+        contrast(1.16)
+        saturate(.82)
+        brightness(.72)
+        drop-shadow(0 1px 1px #0004);
+    mix-blend-mode:multiply;
+    opacity:.72
+}
+
+.clip img{
+    filter:drop-shadow(1px 4px 3px #0006)
+}
+
+.clip{
+    z-index:120
+}
+
+.clipFallback{
+    position:absolute;
+    left:20%;
+    top:8%;
+    width:58%;
+    height:84%;
+    border:5px solid #8e9296;
+    border-radius:45% 45% 42% 42%;
+    box-shadow:
+        inset 2px 0 1px #fff7,
+        2px 4px 4px #0005;
+    transform:rotate(8deg);
+    background:transparent
+}
+
+.clipFallback:after{
+    content:"";
+    position:absolute;
+    left:12%;
+    top:4%;
+    width:68%;
+    height:92%;
+    border:4px solid #55595d;
+    border-left-color:transparent;
+    border-bottom-color:transparent;
+    border-radius:50%
+}
+
+.tapeFallback{
+    position:absolute;
+    inset:22% 0;
+    background:linear-gradient(
+        180deg,
+        #f5e6bd66,
+        #d6bd8066
+    );
+    clip-path:polygon(
+        0 8%,8% 0,18% 5%,31% 1%,43% 6%,56% 0,
+        68% 5%,80% 1%,92% 7%,100% 3%,97% 90%,
+        89% 96%,76% 91%,63% 98%,50% 92%,37% 98%,
+        23% 92%,10% 97%,0 90%
+    );
+    box-shadow:0 4px 5px #0003
+}
+
+.bloodFallback{
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(
+            circle at 50% 50%,
+            #741414b8 0 10%,
+            transparent 11%
+        ),
+        radial-gradient(
+            circle at 27% 39%,
+            #861818a8 0 7%,
+            transparent 8%
+        ),
+        radial-gradient(
+            circle at 72% 61%,
+            #8b1717a5 0 5%,
+            transparent 6%
+        ),
+        radial-gradient(
+            ellipse at 50% 55%,
+            #761212aa 0 22%,
+            transparent 23%
+        );
+    filter:blur(.2px);
+    opacity:.7
+}
+
+/* =========================================================
+   EXTRA OBJECTS
+   ========================================================= */
+
+.stamp{
+    width:175px;
+    height:70px;
+    border:4px solid #7b2927;
+    color:#7b2927;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font:21px Special Elite;
+    letter-spacing:2px;
+    opacity:.7;
+    mix-blend-mode:multiply;
+    box-shadow:inset 0 0 9px #7b292744
+}
+
+.arrow svg{
+    width:100%;
+    height:100%;
+    overflow:visible
+}
+
+.smiley{
+    font:55px Caveat;
+    color:#222
+}
+
+.stain{
+    position:relative;
+    background-image:url("https://aitextured.com/upload/iblock/be8/do9cdevy1ykza9t6iwhjow9x2vifbwvk/subtle_coffee_stain_ring_2.png");
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+    mix-blend-mode:multiply;
+    opacity:.62;
+    filter:sepia(.2) saturate(.7) contrast(.95)
+}
+
+.crossout{
+    font:27px Caveat;
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+    position:relative
+}
+
+.crossout:after{
+    content:"";
+    position:absolute;
+    left:-5%;
+    right:-5%;
+    top:4%;
+    height:92%;
+    background:
+        repeating-linear-gradient(
+            1deg,
+            transparent 0 7px,
+            rgba(10,10,10,.86) 8px 11px,
+            transparent 12px 17px
+        );
+    transform:rotate(.25deg);
+    filter:blur(.18px);
+    mix-blend-mode:multiply;
+    pointer-events:none
+}
+
+.underline{
+    font:27px Caveat;
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+    position:relative
+}
+
+.underline:after{
+    content:"";
+    position:absolute;
+    left:-1%;
+    right:-2%;
+    bottom:-2px;
+    height:5px;
+    background:#333d;
+    clip-path:polygon(
+        0 42%,12% 25%,25% 48%,39% 19%,52% 43%,
+        65% 27%,79% 50%,91% 29%,100% 42%,100% 68%,
+        90% 58%,79% 76%,66% 54%,52% 73%,39% 49%,
+        25% 72%,12% 53%,0 66%
+    );
+    transform:rotate(-.8deg);
+    border-radius:4px
+}
+
+.circleMark{
+    border:4px solid #a22b2baa;
+    border-radius:50%;
+    transform:rotate(-8deg)
+}
+
+/* =========================================================
+   BINDING
+   ========================================================= */
+
+#rings{
+    position:absolute;
+    left:-36px;
+    top:22px;
+    bottom:22px;
+    width:49px;
+    z-index:500;
+    pointer-events:none
+}
+
+.ring{
+    position:absolute;
+    left:7px;
+    width:34px;
+    height:14px;
+    border:3px solid #777;
+    border-left-color:#333;
+    border-right-color:#bbb;
+    border-radius:50%;
+    box-shadow:
+        0 1px 2px #000b,
+        inset 0 1px #fff7
+}
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+#toast{
+    position:fixed;
+    left:50%;
+    bottom:17px;
+    transform:translateX(-50%);
+    z-index:70000;
+    padding:8px 12px;
+    border:1px solid #666;
+    border-radius:6px;
+    background:#111e;
+    color:#ddd;
+    font:10px Special Elite;
+    letter-spacing:1px;
+    opacity:0;
+    transition:.2s;
+    pointer-events:none
+}
+
+#toast.show{
+    opacity:1
+}
+
+#fileInput,
+#photoInput{
+    display:none
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media(max-width:900px){
+
+    #topbar{
+        top:7px;
+        width:calc(100vw - 14px);
+        padding:7px
     }
 
-    .brandBlock {
-        display: none;
+    .brandBlock{
+        display:none
     }
 
-    .topActions {
-        width: 100%;
-        justify-content: center;
+    .topActions{
+        width:100%;
+        justify-content:center
     }
 
-    #formatbar {
-        top: 62px;
-        max-width: calc(100vw - 14px);
-        overflow-x: auto;
+    #formatbar{
+        top:62px;
+        max-width:calc(100vw - 14px);
+        overflow-x:auto
     }
 
-    #assets {
-        right: 7px;
-        width: 155px;
+    #assets{
+        right:7px;
+        width:155px
+    }
+
+    #book{
+        transform:scale(.88) rotate(-.25deg);
+        transform-origin:center
     }
 }
-
-#authButton{border-color:#747977!important}
-#authStatus{font:8px Special Elite,monospace;color:#8e9492;letter-spacing:1px;padding:0 5px;white-space:nowrap}
-body:not(.admin-mode) [data-admin-only],body:not(.admin-mode) #formatbar,body:not(.admin-mode) #assets{display:none!important}
-body:not(.admin-mode) .obj{cursor:default!important}
-#authModal{position:fixed;inset:0;z-index:100000;background:rgba(0,0,0,.68);display:none;align-items:center;justify-content:center;backdrop-filter:blur(5px)}
-#authModal.open{display:flex}
-.authBox{width:min(390px,calc(100vw - 30px));padding:22px;background:linear-gradient(180deg,#292c2c,#191b1b);border:1px solid #666;border-radius:6px;box-shadow:0 25px 80px #000b}
-.authTitle{font:13px Special Elite;letter-spacing:2px;color:#e2e3df}.authSub{margin:6px 0 18px;color:#777d7b;font:8px Inter;letter-spacing:1.5px}
-.authBox input{display:block;width:100%;height:38px;margin:8px 0;padding:0 10px;background:#101212;border:1px solid #474b4a;border-radius:4px;color:#ddd;outline:none;font:10px Inter}.authButtons{display:flex;gap:7px;margin-top:12px}.authButtons button,.logoutBtn{flex:1}.logoutBtn{margin-top:7px;display:none}.authBox.loggedIn .logoutBtn{display:block}.authBox.loggedIn input,.authBox.loggedIn .authButtons{display:none}
-#authMessage{min-height:16px;margin-top:10px;color:#aaa;font:9px Inter;line-height:1.4}
-
-/* FORCE NOTEBOOK TEXT DARK */
-.page-sheet .content, .page-sheet .content *, .page-sheet [contenteditable="true"], .page-sheet [contenteditable="true"] * { color:#171717 !important; -webkit-text-fill-color:#171717 !important; }
-.writing:empty:before, .noteObj .noteText:empty:before { color:#0003 !important; -webkit-text-fill-color:#0003 !important; }
-
-
-/* VIEWER / ADMIN LOCK */
-body:not(.admin-mode) [contenteditable="true"] { pointer-events:none; cursor:default; }
-body:not(.admin-mode) #formatbar button, body:not(.admin-mode) #formatbar select, body:not(.admin-mode) #formatbar input, body:not(.admin-mode) #assets .tool, body:not(.admin-mode) #topbar button:not(#authButton) { opacity:.55; }
 
 </style>
-
 </head>
+
 <body>
+
 <div id="deskLight"></div>
 <div class="deskFiber"></div>
 
 <header id="topbar">
-<div class="brandBlock">
-<div class="brandMain">SCP FOUNDATION</div>
-<div class="brandSub">PERSONAL NOTEBOOK // SECURE TERMINAL</div>
-</div>
 
-<div class="topActions">
-<button onclick="prevPage()" title="Previous page">‹</button>
-<span id="pageLabel">COVER</span>
-<button onclick="nextPage()" title="Next page">›</button>
+    <div class="brandBlock">
+        <div class="brandMain">SCP FOUNDATION</div>
+        <div class="brandSub">PERSONAL NOTEBOOK // SECURE TERMINAL</div>
+    </div>
 
-<span class="uiSep"></span>
+    <div class="topActions">
 
-<button onclick="newPage()">+ PAGE</button>
-<button onclick="addTextBox()">TEXT</button>
-<button onclick="addNote()">NOTE</button>
-<button onclick="pickPhoto()">POLAROID</button>
+        <button onclick="prevPage()" title="Previous page">‹</button>
 
-<span class="uiSep"></span>
+        <span id="pageLabel">COVER</span>
 
-<button data-admin-only onclick="saveBook()">SAVE</button>
-<button data-admin-only onclick="resetBook()" class="danger">RESET</button>
-<button id="authButton" onclick="openAuth()">ADMIN LOGIN</button>
-<span id="authStatus">READ ONLY</span>
-</div>
+        <button onclick="nextPage()" title="Next page">›</button>
+
+        <span class="uiSep"></span>
+
+        <button onclick="newPage()">+ PAGE</button>
+        <button onclick="addTextBox()">TEXT</button>
+        <button onclick="addNote()">NOTE</button>
+        <button onclick="pickPhoto()">POLAROID</button>
+
+        <span class="uiSep"></span>
+
+        <button onclick="saveBook()">SAVE</button>
+        <button onclick="resetBook()" class="danger">RESET</button>
+
+    </div>
+
 </header>
+
 <div id="formatbar">
-<select id="fontSelect" onchange="format('fontName',this.value)"><option value="Caveat">Caveat</option><option value="Dancing Script">Dancing Script</option><option value="Patrick Hand">Patrick Hand</option><option value="Indie Flower">Indie Flower</option><option value="Shadows Into Light">Shadows Into Light</option><option value="Special Elite">Special Elite</option></select>
-<select id="sizeSelect" onchange="format('fontSize',this.value)"><option value="2">16</option><option value="3" selected>22</option><option value="4">28</option><option value="5">34</option><option value="6">42</option><option value="7">50</option></select>
-<button onclick="format('bold')"><b>B</b></button><button onclick="format('italic')"><i>I</i></button><button onclick="format('underline')"><u>U</u></button><button onclick="format('strikeThrough')"><s>S</s></button>
-<button onclick="roughFormat('highlight')">HIGHLIGHT</button><button onclick="roughFormat('cross')">ROUGH X</button><button onclick="roughFormat('underline')">ROUGH U</button><input class="colorpick" id="textColor" type="color" value="#171717" onchange="format('foreColor',this.value)" title="Textfarbe">
-<input class="colorpick" id="highlightColor" type="color" value="#f0d95b" onchange="setHighlightColor(this.value)" title="Highlightfarbe">
-<button onclick="format('justifyLeft')">L</button><button onclick="format('justifyCenter')">C</button><button onclick="format('justifyRight')">R</button>
+
+    <select id="fontSelect" onchange="format('fontName',this.value)">
+        <option value="Caveat">Caveat</option>
+        <option value="Dancing Script">Dancing Script</option>
+        <option value="Patrick Hand">Patrick Hand</option>
+        <option value="Indie Flower">Indie Flower</option>
+        <option value="Shadows Into Light">Shadows Into Light</option>
+        <option value="Special Elite">Special Elite</option>
+    </select>
+
+    <select id="sizeSelect" onchange="format('fontSize',this.value)">
+        <option value="2">16</option>
+        <option value="3" selected>22</option>
+        <option value="4">28</option>
+        <option value="5">34</option>
+        <option value="6">42</option>
+        <option value="7">50</option>
+    </select>
+
+    <button onclick="format('bold')"><b>B</b></button>
+    <button onclick="format('italic')"><i>I</i></button>
+    <button onclick="format('underline')"><u>U</u></button>
+    <button onclick="format('strikeThrough')"><s>S</s></button>
+
+    <button onclick="roughFormat('highlight')">HIGHLIGHT</button>
+    <button onclick="roughFormat('cross')">ROUGH X</button>
+    <button onclick="roughFormat('underline')">ROUGH U</button>
+
+    <input
+        class="colorpick"
+        id="textColor"
+        type="color"
+        value="#171717"
+        onchange="format('foreColor',this.value)"
+        title="Textfarbe"
+    >
+
+    <input
+        class="colorpick"
+        id="highlightColor"
+        type="color"
+        value="#f0d95b"
+        onchange="setHighlightColor(this.value)"
+        title="Highlightfarbe"
+    >
+
+    <button onclick="format('justifyLeft')">L</button>
+    <button onclick="format('justifyCenter')">C</button>
+    <button onclick="format('justifyRight')">R</button>
+
 </div>
+
 <div id="assets">
-<h3>TOOLBOX</h3>
-<div class="toolGroup"><div class="toolGroupTitle">EVIDENCE</div>
-<button class="tool drag" draggable="true" data-a="blood" title="Real transparent blood PNG — click/drag to place">🩸 Blood splatter</button>
-<button class="tool drag" draggable="true" data-a="blood2">🩸 Blood mark</button>
-<button class="tool drag" draggable="true" data-a="tape" title="Real transparent adhesive tape strip">▰ Torn tape strip</button>
-<button class="tool drag" draggable="true" data-a="clip" title="Real metal paper clip PNG — snaps near page edge">📎 Real paper clip</button>
-<button class="tool drag" draggable="true" data-a="coffee" title="Photorealistic transparent coffee-stain PNG">☕ Coffee stain</button></div>
-<div class="toolGroup"><div class="toolGroupTitle">MARKUP</div>
-<button class="tool drag" draggable="true" data-a="highlight">🖍 Rough highlight</button>
-<button class="tool drag" draggable="true" data-a="cross">✕ Black cross-out</button>
-<button class="tool drag" draggable="true" data-a="underline">〰 Hand underline</button>
-<button class="tool drag" draggable="true" data-a="circle">⭕ Red circle</button>
-<button class="tool drag" draggable="true" data-a="arrow">↗ Hand arrow</button>
-<button class="tool drag" draggable="true" data-a="scribble">✎ Scribble</button></div>
-<div class="toolGroup"><div class="toolGroupTitle">PAPER / NOTES</div>
-<button class="tool drag" draggable="true" data-a="note">🗒 Personal note</button>
-<button class="tool drag" draggable="true" data-a="stamp">▣ Classified stamp</button>
-<button class="tool" onclick="addSmiley()">:) Hand smiley</button>
-</div>
-</div>
-<div id="scene"><div id="bookShadow"></div><div id="book"><div id="cover"></div><div id="stack"><i class="stackSheet"></i><i class="stackSheet"></i><i class="stackSheet"></i></div><div id="pages"></div><div id="rings"></div></div></div>
-<div id="toast"></div><input id="photoInput" type="file" accept="image/*">
-<div id="authModal" aria-hidden="true">
-  <div class="authBox">
-    <div class="authTitle">SCP FOUNDATION // ADMIN ACCESS</div>
-    <div class="authSub">AUTHORIZED PERSONNEL ONLY</div>
-    <input id="authEmail" type="email" autocomplete="username" placeholder="ADMIN EMAIL">
-    <input id="authPassword" type="password" autocomplete="current-password" placeholder="PASSWORD">
-    <div class="authButtons"><button onclick="loginAdmin()">LOGIN</button><button onclick="closeAuth()">CANCEL</button></div>
-    <button id="logoutButton" class="logoutBtn" onclick="logoutAdmin()">LOGOUT</button>
-    <div id="authMessage"></div>
-  </div>
+
+    <h3>TOOLBOX</h3>
+
+    <div class="toolGroup">
+
+        <div class="toolGroupTitle">EVIDENCE</div>
+
+        <button
+            class="tool drag"
+            draggable="true"
+            data-a="blood"
+            title="Real transparent blood PNG — click/drag to place"
+        >
+            🩸 Blood splatter
+        </button>
+
+        <button
+            class="tool drag"
+            draggable="true"
+            data-a="blood2"
+        >
+            🩸 Blood mark
+        </button>
+
+        <button
+            class="tool drag"
+            draggable="true"
+            data-a="tape"
+            title="Real transparent adhesive tape strip"
+        >
+            ▰ Torn tape strip
+        </button>
+
+        <button
+            class="tool drag"
+            draggable="true"
+            data-a="clip"
+            title="Real metal paper clip PNG — snaps near page edge"
+        >
+            📎 Real paper clip
+        </button>
+
+        <button
+            class="tool drag"
+            draggable="true"
+            data-a="coffee"
+            title="Photorealistic transparent coffee-stain PNG"
+        >
+            ☕ Coffee stain
+        </button>
+
+    </div>
+
+    <div class="toolGroup">
+
+        <div class="toolGroupTitle">MARKUP</div>
+
+        <button class="tool drag" draggable="true" data-a="highlight">
+            🖍 Rough highlight
+        </button>
+
+        <button class="tool drag" draggable="true" data-a="cross">
+            ✕ Black cross-out
+        </button>
+
+        <button class="tool drag" draggable="true" data-a="underline">
+            〰 Hand underline
+        </button>
+
+        <button class="tool drag" draggable="true" data-a="circle">
+            ⭕ Red circle
+        </button>
+
+        <button class="tool drag" draggable="true" data-a="arrow">
+            ↗ Hand arrow
+        </button>
+
+        <button class="tool drag" draggable="true" data-a="scribble">
+            ✎ Scribble
+        </button>
+
+    </div>
+
+    <div class="toolGroup">
+
+        <div class="toolGroupTitle">PAPER / NOTES</div>
+
+        <button class="tool drag" draggable="true" data-a="note">
+            🗒 Personal note
+        </button>
+
+        <button class="tool drag" draggable="true" data-a="stamp">
+            ▣ Classified stamp
+        </button>
+
+        <button class="tool" onclick="addSmiley()">
+            :) Hand smiley
+        </button>
+
+    </div>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<div id="scene">
+
+    <div id="bookShadow"></div>
+
+    <div id="book">
+
+        <div id="cover"></div>
+
+        <div id="stack">
+            <i class="stackSheet"></i>
+            <i class="stackSheet"></i>
+            <i class="stackSheet"></i>
+        </div>
+
+        <div id="pages"></div>
+
+        <div id="rings"></div>
+
+    </div>
+
+</div>
+
+<div id="toast"></div>
+
+<input id="photoInput" type="file" accept="image/*">
+
 <script>
-const SUPABASE_URL="https://lebmtnhyktxddrpzuadc.supabase.co";
-const SUPABASE_KEY="sb_publishable_ybfwxGlyySO6l0Tixx7cpg_i3XS0df8";
-const {createClient}=window.supabase;
-const db=createClient(SUPABASE_URL,SUPABASE_KEY);
-let session=null,isAdmin=false,authReady=false,saveTimer=null,remoteApplying=false;
 
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+
 const LOGO='https://commons.wikimedia.org/wiki/Special:Redirect/file/SCP%20Foundation%20(emblem).svg';
+
 const BLOOD=[
-'https://pngimg.com/uploads/blood/blood_PNG6089.png',
-'https://pngimg.com/uploads/blood/blood_PNG6152.png',
-'https://pngimg.com/uploads/blood/blood_PNG6089.png'
+    'https://pngimg.com/uploads/blood/blood_PNG6089.png',
+    'https://pngimg.com/uploads/blood/blood_PNG6152.png',
+    'https://pngimg.com/uploads/blood/blood_PNG6089.png'
 ];
+
 const TAPE=[
-'https://pngimg.com/uploads/adhesive_tape/adhesive_tape_PNG19.png',
-'https://pngimg.com/uploads/adhesive_tape/adhesive_tape_PNG9.png',
-'https://pngimg.com/uploads/adhesive_tape/adhesive_tape_PNG3.png'
+    'https://pngimg.com/uploads/adhesive_tape/adhesive_tape_PNG19.png',
+    'https://pngimg.com/uploads/adhesive_tape/adhesive_tape_PNG9.png',
+    'https://pngimg.com/uploads/adhesive_tape/adhesive_tape_PNG3.png'
 ];
+
 const CLIPS=[
-'https://pngimg.com/d/Paper_clip_PNG30.png',
-'https://pngimg.com/uploads/paper_clip/paper_clip_PNG5.png',
-'https://pngimg.com/d/Paper_clip_PNG17.png'
+    'https://pngimg.com/d/Paper_clip_PNG30.png',
+    'https://pngimg.com/uploads/paper_clip/paper_clip_PNG5.png',
+    'https://pngimg.com/d/Paper_clip_PNG17.png'
 ];
-let pages=[],current=0,selected=null,interaction=null,turnBusy=false,draw=null;
-function rnd(a,b){return Math.floor(Math.random()*(b-a+1))+a}
-function today(){const d=new Date();return String(d.getDate()).padStart(2,'0')+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+d.getFullYear()}
-function toast(t){const x=$('#toast');x.textContent=t;x.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>x.classList.remove('show'),1200)}
-function rings(){const r=$('#rings');r.innerHTML='';for(let i=0;i<19;i++){const x=document.createElement('i');x.className='ring';x.style.top=(i*5.25)+'%';r.appendChild(x)}}
-function faceMarkup(front,index,title='',cover=false){
-    if(cover)return `<div class="content title"><img class="logo" src="${LOGO}"><div class="ft">SCP FOUNDATION</div><div class="sub">PERSONAL NOTEBOOK</div><div class="meta"><div class="row"><div class="label">NAME</div><div class="value" contenteditable="true"></div></div><div class="row"><div class="label">DESIGNATION</div><div class="value" contenteditable="true"></div></div><div class="row"><div class="label">ID-NUMBER</div><div class="value" contenteditable="true"></div></div><div class="row"><div class="label">CLEARANCE</div><div class="value" contenteditable="true"></div></div></div></div><div class="pno">COVER</div>`;
-    return `<div class="margin-line"></div><div class="content note"><div class="head"><div class="ntitle" contenteditable="true">${title}</div><div class="date" contenteditable="true">${today()}</div></div><div class="writing" contenteditable="true" spellcheck="false"></div></div><div class="pno">${index}</div><div class="curl"></div>`;
-}
-function makeSheet(index,title='',cover=false){
-    const s=document.createElement('div');s.className='page-sheet';s.dataset.i=index;
-    const front=document.createElement('div');front.className='face front'+(cover?' coverPage':'');front.innerHTML=faceMarkup(true,index,title,cover);
-    const back=document.createElement('div');back.className='face back';back.innerHTML='<div class="backmark">SCP FOUNDATION — PERSONNEL NOTES</div>';
-    s.append(front,back);$('#pages').appendChild(s);pages.push(s);bindPage(s);return s;
-}
-function bindPage(p){p.querySelectorAll('[contenteditable]').forEach(e=>{e.addEventListener('input',()=>{if(!isAdmin){return}scheduleCloudSave()});e.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();document.execCommand('insertText',false,'\t')}})});p.addEventListener('dragover',e=>e.preventDefault());p.addEventListener('drop',e=>{e.preventDefault();const a=e.dataTransfer.getData('asset');if(a){const r=p.querySelector('.face.front').getBoundingClientRect();addAsset(a,e.clientX-r.left,e.clientY-r.top)}});p.addEventListener('click',()=>{if(draw)stopDraw()})}
-function init(){rings();$('#pages').innerHTML='';pages=[];makeSheet(0,'',true);makeSheet(1,'INITIAL NOTES');for(let i=2;i<=8;i++)makeSheet(i,'');updatePages();loadBook();subscribeRealtime();initAuth()}
-function updatePages(){pages.forEach((p,i)=>{p.classList.toggle('flipped',i<current);p.classList.toggle('active',i===current);p.classList.remove('frontmost','behind');p.style.zIndex=i===current?1000:(i<current?100+i:10+i)});$('#pageLabel').textContent=current===0?'COVER':'PAGE '+current}
-function nextPage(){if(turnBusy||current>=pages.length-1)return;turnBusy=true;const p=pages[current],under=pages[current+1];p.classList.add('turning','frontmost');under.classList.add('under-turn');under.style.zIndex=8000;requestAnimationFrame(()=>requestAnimationFrame(()=>p.classList.add('flipped')));setTimeout(()=>{current++;p.classList.remove('turning','frontmost');under.classList.remove('under-turn');updatePages();turnBusy=false;saveBook(false);toast('PAGE '+current)},980)}
-function prevPage(){if(turnBusy||current<=0)return;turnBusy=true;const target=pages[current-1],top=pages[current];top.style.zIndex=8000;target.style.zIndex=9000;target.classList.add('turning','frontmost');requestAnimationFrame(()=>requestAnimationFrame(()=>target.classList.remove('flipped')));setTimeout(()=>{current--;target.classList.remove('turning','frontmost');updatePages();turnBusy=false;saveBook(false);toast('PAGE '+current)},980)}
-function newPage(){if(!isAdmin){toast('READ ONLY');return}makeSheet(pages.length,'');current=pages.length-1;updatePages();toast('NEW PAGE '+current);scheduleCloudSave()}
-function pageFront(){return pages[current]?.querySelector('.front')}
-function objBase(cls,w,h,x=230,y=220){if(!isAdmin){toast('READ ONLY');return document.createElement('div')}
-const o=document.createElement('div');o.className='obj '+cls;o.style.width=w+'px';o.style.height=h+'px';o.style.left=x+'px';o.style.top=y+'px';o.style.transform='rotate('+rnd(-8,8)+'deg)';pageFront().appendChild(o);interactive(o);selectObj(o);scheduleCloudSave();return o}
-function addHandles(o){['tl','tr','bl','br'].forEach(c=>{const h=document.createElement('i');h.className='handle '+c;o.appendChild(h)});const line=document.createElement('i');line.className='rotline';o.appendChild(line);const rot=document.createElement('i');rot.className='rot';o.appendChild(rot)}
-function selectObj(o){if(selected&&selected!==o)selected.classList.remove('selected');selected=o;o?.classList.add('selected')}
-function interactive(o){o.addEventListener('pointerdown',startInteraction);o.addEventListener('dblclick',()=>o.querySelector('[contenteditable]')?.focus())}
-function startInteraction(e){if(!isAdmin)return;const o=e.currentTarget;if(e.target.closest('[contenteditable]')&&!e.target.classList.contains('textbox'))return;e.stopPropagation();selectObj(o);const r=o.getBoundingClientRect();if(e.target.classList.contains('handle')){interaction={type:'resize',o,sx:e.clientX,sy:e.clientY,w:o.offsetWidth,h:o.offsetHeight,ratio:o.offsetHeight/o.offsetWidth}}else if(e.target.classList.contains('rot')){interaction={type:'rotate',o,cx:r.left+r.width/2,cy:r.top+r.height/2}}else{interaction={type:'move',o,sx:e.clientX,sy:e.clientY,l:parseFloat(o.style.left),t:parseFloat(o.style.top)}}o.setPointerCapture?.(e.pointerId)}
-document.addEventListener('pointermove',e=>{if(!interaction)return;const i=interaction,o=i.o;if(i.type==='move'){o.style.left=(i.l+e.clientX-i.sx)+'px';o.style.top=(i.t+e.clientY-i.sy)+'px'}else if(i.type==='resize'){const dx=e.clientX-i.sx,dy=e.clientY-i.sy;const d=Math.abs(dx)>Math.abs(dy)?dx:dy;o.style.width=Math.max(35,i.w+d)+'px';o.style.height=Math.max(35,i.h+d*i.ratio)+'px'}else{const a=Math.atan2(e.clientY-i.cy,e.clientX-i.cx)*180/Math.PI;o.style.transform='rotate('+(a+90)+'deg)'}});document.addEventListener('pointerup',()=>{if(interaction?.type==='move'&&interaction.o?.classList.contains('clip')){const o=interaction.o,pr=pageFront().getBoundingClientRect(),r=o.getBoundingClientRect();if(Math.abs(r.left-pr.left)<55)o.style.left='-18px';else if(Math.abs(r.right-pr.right)<55)o.style.left=(pageFront().clientWidth-o.offsetWidth+10)+'px';o.style.zIndex=140;}interaction=null;scheduleCloudSave()});
-document.addEventListener('pointerdown',e=>{if(!e.target.closest('.obj')&&!e.target.closest('#assets')&&!e.target.closest('#topbar')&&!e.target.closest('#formatbar')){selected?.classList.remove('selected');selected=null}});
-function imgObj(src,cls,w,h,x,y,alt='asset'){const o=objBase(cls,w,h,x,y);const im=document.createElement('img');im.src=src;im.className='assetImg';im.alt=alt;im.draggable=false;o.appendChild(im);addHandles(o);im.onerror=()=>{if(cls.includes('clip')){o.innerHTML='<div class=\"clipFallback\"></div>';addHandles(o)}else if(cls.includes('tape')){o.innerHTML='<div class=\"tapeFallback\"></div>';addHandles(o)}else if(cls.includes('blood')){o.innerHTML='<div class=\"bloodFallback\"></div>';addHandles(o)}else{o.remove()}};return o}
-function addBlood(x=240,y=240,kind='blood'){const src=BLOOD[rnd(0,BLOOD.length-1)];return imgObj(src,kind==='blood2'?'blood blood2':'blood',rnd(210,390),rnd(120,270),x,y,'blood')}
-function addTape(x=220,y=220){const src=TAPE[rnd(0,TAPE.length-1)];return imgObj(src,'tape',rnd(180,330),rnd(52,95),x,y,'adhesive tape strip')}
-function addClip(x=410,y=150){const src=CLIPS[rnd(0,CLIPS.length-1)];return imgObj(src,'clip',rnd(55,100),rnd(75,125),x,y,'paper clip')}
-function addNote(x=220,y=270){const o=objBase('noteObj',310,210,x,y);o.style.transform='rotate('+rnd(-4,4)+'deg)';o.innerHTML='<div class="noteHead">PERSONAL NOTE</div><div class="noteText" contenteditable="true">Write a note...</div>';addHandles(o);return o}
-function addCoffee(x=300,y=360){const o=objBase('stain',210,170,x,y);o.style.transform='rotate('+rnd(-12,12)+'deg)';return o}
-function addHighlight(x=250,y=280){const o=objBase('textbox',240,45,x,y);o.innerHTML='<span class="highlightBlock" contenteditable="true">highlight this</span>';addHandles(o);return o}
-function addCross(x=250,y=330){const o=objBase('textbox',230,45,x,y);o.innerHTML='<span class="crossout" contenteditable="true">crossed out</span>';addHandles(o);return o}
-function addUnderline(x=250,y=380){const o=objBase('textbox',230,45,x,y);o.innerHTML='<span class="underline" contenteditable="true">underlined text</span>';addHandles(o);return o}
-function addCircle(x=260,y=300){const o=objBase('circleMark',160,100,x,y);addHandles(o);return o}
-function addArrow(x=330,y=310){const o=objBase('arrow',170,85,x,y);o.innerHTML='<svg viewBox="0 0 170 85"><path d="M10 67 C52 19 101 20 151 23" fill="none" stroke="#29251f" stroke-width="4" stroke-linecap="round"/><path d="M132 10 L154 23 L136 39" fill="none" stroke="#29251f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';addHandles(o);return o}
-function addScribble(x=150,y=470){const o=objBase('scribble',230,150,x,y);const variants=[0,1,2,3];const v=variants[rnd(0,variants.length-1)];let s='<svg viewBox=\"0 0 230 150\">';const count=v===0?5:v===1?9:v===2?13:7;for(let j=0;j<count;j++){let y0=rnd(20,130),d='M '+rnd(8,35)+' '+y0;for(let k=0;k<rnd(5,10);k++)d+=' C '+rnd(35,95)+' '+rnd(5,145)+' '+rnd(115,175)+' '+rnd(5,145)+' '+rnd(195,222)+' '+rnd(5,145);const cls=j%5===0?'heavy':j%3===0?'faint':'';s+='<path class=\"'+cls+'\" d=\"'+d+'\"/>'}s+='</svg>';o.innerHTML=s;return o}
-function addStamp(x=350,y=470){const o=objBase('',175,70,x,y);o.innerHTML='<div class="stamp">CLASSIFIED</div>';addHandles(o);return o}
-function addSmiley(){const o=objBase('smiley',80,65,rnd(100,450),rnd(150,650));o.innerHTML=':)';addHandles(o);return o}
-function addTextBox(){const o=objBase('textbox',270,75,150,220);o.innerHTML='<div class="textbox" contenteditable="true">Write something...</div>';addHandles(o);o.querySelector('[contenteditable]').focus();return o}
-function addAsset(a,x=260,y=260){if(!isAdmin){toast('READ ONLY');return}if(a==='blood')addBlood(x,y,'blood');else if(a==='blood2')addBlood(x,y,'blood2');else if(a==='tape')addTape(x,y);else if(a==='clip')addClip(x,y);else if(a==='note')addNote(x,y);else if(a==='coffee')addCoffee(x,y);else if(a==='highlight')addHighlight(x,y);else if(a==='cross')addCross(x,y);else if(a==='underline')addUnderline(x,y);else if(a==='circle')addCircle(x,y);else if(a==='arrow')addArrow(x,y);else if(a==='scribble')addScribble(x,y);else if(a==='stamp')addStamp(x,y)}
-$$('#assets [draggable=true]').forEach(b=>{b.addEventListener('dragstart',e=>e.dataTransfer.setData('asset',b.dataset.a));b.addEventListener('click',()=>addAsset(b.dataset.a));});
-/* text formatting */
-function restoreSelection(){if(window.savedRange){const s=window.getSelection();s.removeAllRanges();s.addRange(window.savedRange)}}
-document.addEventListener('selectionchange',()=>{const s=window.getSelection();if(s.rangeCount&&!s.isCollapsed){const a=s.anchorNode?.parentElement;if(a?.closest('.writing,.textbox,.noteText,.value,.ntitle,.date'))window.savedRange=s.getRangeAt(0).cloneRange()}});
-function format(cmd,val=null){if(!isAdmin){toast('READ ONLY');return}restoreSelection();document.execCommand(cmd,false,val);toast(cmd.toUpperCase())}
-function escapeHTML(t){return t.replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[m]))}
-function roughFormat(type){if(!isAdmin){toast('READ ONLY');return}restoreSelection();const sel=window.getSelection();if(!sel.rangeCount||sel.isCollapsed){toast('TEXT AUSWÄHLEN');return}const range=sel.getRangeAt(0);if(!range.toString().trim())return;const span=document.createElement('span');span.className=type==='highlight'?'rough-highlight':type==='cross'?'rough-cross':'rough-underline';if(type==='highlight')span.style.setProperty('--mark',$('#highlightColor').value+'b8');span.appendChild(range.extractContents());range.insertNode(span);sel.removeAllRanges();const nr=document.createRange();nr.selectNodeContents(span);sel.addRange(nr);window.savedRange=nr.cloneRange();toast(type==='highlight'?'ROUGH HIGHLIGHT':type==='cross'?'BLACK SCRIBBLE CROSS-OUT':'HAND UNDERLINE')}
-function highlightText(){roughFormat('highlight')}
-function setHighlightColor(c){if(!isAdmin){toast('READ ONLY');return}restoreSelection();document.execCommand('hiliteColor',false,c);}
-/* drawing layer */
-function drawMode(){if(!isAdmin){toast('READ ONLY');return}if(draw){stopDraw();return}const f=pageFront();const c=document.createElement('canvas');c.className='drawLayer';c.width=f.clientWidth;c.height=f.clientHeight;c.style.cssText='position:absolute;inset:0;width:100%;height:100%;z-index:35;touch-action:none;cursor:crosshair';f.appendChild(c);const ctx=c.getContext('2d');ctx.lineWidth=2.6;ctx.lineCap='round';ctx.strokeStyle='#171717';let drawing=false;const pos=e=>{const r=c.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}};c.onpointerdown=e=>{drawing=true;const p=pos(e);ctx.beginPath();ctx.moveTo(p.x,p.y);c.setPointerCapture(e.pointerId)};c.onpointermove=e=>{if(!drawing)return;const p=pos(e);ctx.lineTo(p.x,p.y);ctx.stroke()};c.onpointerup=()=>drawing=false;c.onpointercancel=()=>drawing=false;draw=c;toast('DRAW MODE — click PEN again to finish')}
-function stopDraw(){if(!draw)return;draw=null;toast('DRAW SAVED')}
-/* photo */
-function pickPhoto(){if(!isAdmin){toast('READ ONLY');return}$('#photoInput').click()}$('#photoInput').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>addPolaroid(r.result);r.readAsDataURL(f);e.target.value=''})
-function addPolaroid(src){const o=objBase('',300,350,rnd(90,410),rnd(130,500));o.innerHTML='<div class="polaroid"><div class="tape-corner"></div><img class="photo" src="'+src+'"><div class="film"></div><div class="grain"></div><div class="age"></div><div class="wear"></div><div class="caption" contenteditable="true">'+rnd(2001,2008)+' / '+String(rnd(1,12)).padStart(2,'0')+' / S-416</div><div class="date-stamp">ARCHIVE</div></div>';addHandles(o);toast('2000s POLAROID')}
-/* persistence: clone without selection UI + Supabase cloud storage */
-function cleanHTML(p){const c=p.cloneNode(true);c.querySelectorAll('.selected').forEach(x=>x.classList.remove('selected'));c.querySelectorAll('.handle,.rot,.rotline').forEach(x=>x.remove());c.classList.remove('active','turning');return c.outerHTML}
 
-function defaultState(){
-    const holder=document.createElement('div');
-    holder.innerHTML='';
-    return {current:0,pages:pages.map(cleanHTML)};
+let pages=[];
+let current=0;
+let selected=null;
+let interaction=null;
+let turnBusy=false;
+let draw=null;
+
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
+function rnd(a,b){
+    return Math.floor(Math.random()*(b-a+1))+a
 }
 
-function applyState(d,notice=false){
-    if(!d||!Array.isArray(d.pages)||!d.pages.length)return;
-    remoteApplying=true;
-    $('#pages').innerHTML=d.pages.join('');
-    pages=[...$('#pages').children];
-    current=Math.min(Math.max(Number.isFinite(Number(d.current_page))?Number(d.current_page):0,0),pages.length-1);
-    pages.forEach(bindPage);
-    pages.forEach(p=>p.querySelectorAll('.obj').forEach(interactive));
-    updatePages();
-    remoteApplying=false;
-    if(notice)toast('SYNCED FROM SERVER');
+function today(){
+    const d=new Date();
+    return String(d.getDate()).padStart(2,'0')+'.'+
+           String(d.getMonth()+1).padStart(2,'0')+'.'+
+           d.getFullYear()
 }
 
-async function saveBook(show=true){
-    if(!isAdmin){if(show)toast('READ ONLY');return false}
-    if(remoteApplying)return false;
-    const payload={pages:pages.map(cleanHTML),current_page:current,updated_at:new Date().toISOString()};
-    const {error}=await db.from('notebook_state').update(payload).eq('id',1);
-    if(error){console.error(error);if(show)toast('SAVE FAILED');return false}
-    if(show)toast('SAVED TO SERVER');
-    return true;
+function toast(t){
+    const x=$('#toast');
+    x.textContent=t;
+    x.classList.add('show');
+    clearTimeout(toast.t);
+    toast.t=setTimeout(
+        ()=>x.classList.remove('show'),
+        1200
+    )
 }
 
-function scheduleCloudSave(){
-    if(!isAdmin||remoteApplying)return;
-    clearTimeout(saveTimer);
-    saveTimer=setTimeout(()=>saveBook(false),1200);
-}
+/* =========================================================
+   RINGS
+   ========================================================= */
 
-async function loadBook(){
-    const {data,error}=await db.from('notebook_state').select('pages,current_page,updated_at').eq('id',1).maybeSingle();
-    if(error){console.error('Supabase load error:',error);toast('SERVER LOAD FAILED');return}
-    if(data&&Array.isArray(data.pages)&&data.pages.length){applyState(data);toast('LOADED FROM SERVER')}
-}
+function rings(){
 
-function subscribeRealtime(){
-    db.channel('notebook-live')
-      .on('postgres_changes',{event:'UPDATE',schema:'public',table:'notebook_state',filter:'id=eq.1'},payload=>{
-          if(isAdmin)return;
-          applyState(payload.new,true);
-      })
-      .subscribe(status=>console.log('Notebook realtime:',status));
-}
+    const r=$('#rings');
+    r.innerHTML='';
 
-async function checkAdmin(s){
-    if(!s){setEditorMode(false);return false}
-    const email=s.user?.email||'';
-    const {data,error}=await db.from('admin_users').select('email').eq('email',email).maybeSingle();
-    if(error){
-        console.warn('Admin check failed:',error);
-        setEditorMode(false);
-        return false;
+    for(let i=0;i<19;i++){
+
+        const x=document.createElement('i');
+
+        x.className='ring';
+        x.style.top=(i*5.25)+'%';
+
+        r.appendChild(x)
     }
-    return !!data;
 }
 
-function setEditorMode(admin){
-    isAdmin=!!admin;
-    document.body.classList.toggle('admin-mode',isAdmin);
-    $$('[contenteditable]').forEach(e=>e.contentEditable=isAdmin?'true':'false');
-    $('#authButton').textContent=isAdmin?'ADMIN / LOGOUT':'ADMIN LOGIN';
-    $('#authStatus').textContent=isAdmin?'ADMIN MODE':'READ ONLY';
-    if(!isAdmin&&draw)stopDraw();
-    selected?.classList.remove('selected');
-    selected=null;
+/* =========================================================
+   PAGE MARKUP
+   ========================================================= */
+
+function faceMarkup(front,index,title='',cover=false){
+
+    if(cover){
+
+        return `
+            <div class="content title">
+
+                <img
+                    class="logo"
+                    src="${LOGO}"
+                >
+
+                <div class="ft">
+                    SCP FOUNDATION
+                </div>
+
+                <div class="sub">
+                    PERSONAL NOTEBOOK
+                </div>
+
+                <div class="meta">
+
+                    <div class="row">
+                        <div class="label">NAME</div>
+                        <div
+                            class="value"
+                            contenteditable="true"
+                        ></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="label">DESIGNATION</div>
+                        <div
+                            class="value"
+                            contenteditable="true"
+                        ></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="label">ID-NUMBER</div>
+                        <div
+                            class="value"
+                            contenteditable="true"
+                        ></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="label">CLEARANCE</div>
+                        <div
+                            class="value"
+                            contenteditable="true"
+                        ></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="pno">
+                COVER
+            </div>
+        `;
+    }
+
+    return `
+        <div class="margin-line"></div>
+
+        <div class="content note">
+
+            <div class="head">
+
+                <div
+                    class="ntitle"
+                    contenteditable="true"
+                >${title}</div>
+
+                <div
+                    class="date"
+                    contenteditable="true"
+                >${today()}</div>
+
+            </div>
+
+            <div
+                class="writing"
+                contenteditable="true"
+                spellcheck="false"
+            ></div>
+
+        </div>
+
+        <div class="pno">
+            ${index}
+        </div>
+
+        <div class="curl"></div>
+    `;
 }
 
-async function updateAuthState(s){
-    session=s||null;
-    const admin=await checkAdmin(session);
-    setEditorMode(admin);
-    authReady=true;
+/* =========================================================
+   CREATE SHEET
+   ========================================================= */
+
+function makeSheet(index,title='',cover=false){
+
+    const s=document.createElement('div');
+
+    s.className='page-sheet';
+    s.dataset.i=index;
+
+    const front=document.createElement('div');
+
+    front.className='face front'+
+        (cover?' coverPage':'');
+
+    front.innerHTML=
+        faceMarkup(
+            true,
+            index,
+            title,
+            cover
+        );
+
+    const back=document.createElement('div');
+
+    back.className='face back';
+
+    back.innerHTML=
+        '<div class="backmark">SCP FOUNDATION — PERSONNEL NOTES</div>';
+
+    s.append(front,back);
+
+    $('#pages').appendChild(s);
+
+    pages.push(s);
+
+    bindPage(s);
+
+    return s;
 }
 
-function openAuth(){
-    if(isAdmin){logoutAdmin();return}
-    $('#authModal').classList.add('open');
-    $('#authModal').setAttribute('aria-hidden','false');
-    $('#authMessage').textContent='';
-    setTimeout(()=>$('#authEmail').focus(),30);
-}
-function closeAuth(){
-    $('#authModal').classList.remove('open');
-    $('#authModal').setAttribute('aria-hidden','true');
+/* =========================================================
+   PAGE EVENTS
+   ========================================================= */
+
+function bindPage(p){
+
+    p.querySelectorAll('[contenteditable]').forEach(e=>{
+
+        e.addEventListener(
+            'input',
+            ()=>{
+                if(e.closest('.obj'))return
+            }
+        );
+
+        e.addEventListener(
+            'keydown',
+            e=>{
+                if(e.key==='Tab'){
+                    e.preventDefault();
+                    document.execCommand(
+                        'insertText',
+                        false,
+                        '\t'
+                    )
+                }
+            }
+        );
+
+    });
+
+    p.addEventListener(
+        'dragover',
+        e=>e.preventDefault()
+    );
+
+    p.addEventListener(
+        'drop',
+        e=>{
+
+            e.preventDefault();
+
+            const a=
+                e.dataTransfer.getData('asset');
+
+            if(a){
+
+                const r=
+                    p.querySelector(
+                        '.face.front'
+                    ).getBoundingClientRect();
+
+                addAsset(
+                    a,
+                    e.clientX-r.left,
+                    e.clientY-r.top
+                )
+            }
+        }
+    );
+
+    p.addEventListener(
+        'click',
+        ()=>{
+            if(draw)stopDraw()
+        }
+    );
 }
 
-async function loginAdmin(){
-    const email=$('#authEmail').value.trim();
-    const password=$('#authPassword').value;
-    if(!email||!password){$('#authMessage').textContent='ENTER EMAIL AND PASSWORD.';return}
-    $('#authMessage').textContent='AUTHENTICATING...';
-    const {data,error}=await db.auth.signInWithPassword({email,password});
-    if(error){console.error(error);$('#authMessage').textContent='LOGIN FAILED: '+error.message;return}
-    const admin=await checkAdmin(data.session);
-    if(!admin){await db.auth.signOut();setEditorMode(false);$('#authMessage').textContent='ACCESS DENIED — ACCOUNT IS NOT AN ADMIN.';return}
-    session=data.session;setEditorMode(true);$('#authModal').classList.add('loggedIn');$('#authMessage').textContent='ACCESS GRANTED.';toast('ADMIN ACCESS GRANTED');setTimeout(closeAuth,500);
+/* =========================================================
+   INIT
+   ========================================================= */
+
+function init(){
+
+    rings();
+
+    $('#pages').innerHTML='';
+
+    pages=[];
+
+    makeSheet(
+        0,
+        '',
+        true
+    );
+
+    makeSheet(
+        1,
+        'INITIAL NOTES'
+    );
+
+    for(let i=2;i<=8;i++){
+        makeSheet(i,'')
+    }
+
+    updatePages();
+
+    loadBook()
 }
 
-async function logoutAdmin(){
-    await db.auth.signOut();
-    session=null;setEditorMode(false);$('#authModal').classList.remove('loggedIn');toast('LOGGED OUT');
+/* =========================================================
+   PAGE UPDATE
+   ========================================================= */
+
+function updatePages(){
+
+    pages.forEach((p,i)=>{
+
+        p.classList.toggle(
+            'flipped',
+            i<current
+        );
+
+        p.classList.toggle(
+            'active',
+            i===current
+        );
+
+        p.classList.remove(
+            'frontmost',
+            'behind'
+        );
+
+        p.style.zIndex=
+            i===current
+                ?1000
+                :(i<current
+                    ?100+i
+                    :10+i);
+    });
+
+    $('#pageLabel').textContent=
+        current===0
+            ?'COVER'
+            :'PAGE '+current;
 }
 
-$('#authModal').addEventListener('click',e=>{if(e.target.id==='authModal')closeAuth()});
+/* =========================================================
+   PAGE TURNING
+   ========================================================= */
 
-async function initAuth(){
-    const {data}=await db.auth.getSession();
-    await updateAuthState(data.session);
-    db.auth.onAuthStateChange(async(_event,s)=>{
-        if(_event==='SIGNED_IN'||_event==='SIGNED_OUT'||_event==='TOKEN_REFRESHED')await updateAuthState(s);
+function nextPage(){
+
+    if(
+        turnBusy||
+        current>=pages.length-1
+    )return;
+
+    turnBusy=true;
+
+    const p=pages[current];
+    const under=pages[current+1];
+
+    p.classList.add(
+        'turning',
+        'frontmost'
+    );
+
+    under.classList.add(
+        'under-turn'
+    );
+
+    under.style.zIndex=8000;
+
+    requestAnimationFrame(
+        ()=>requestAnimationFrame(
+            ()=>p.classList.add('flipped')
+        )
+    );
+
+    setTimeout(
+        ()=>{
+
+            current++;
+
+            p.classList.remove(
+                'turning',
+                'frontmost'
+            );
+
+            under.classList.remove(
+                'under-turn'
+            );
+
+            updatePages();
+
+            turnBusy=false;
+
+            saveBook(false);
+
+            toast(
+                'PAGE '+current
+            );
+
+        },
+        980
+    )
+}
+
+function prevPage(){
+
+    if(
+        turnBusy||
+        current<=0
+    )return;
+
+    turnBusy=true;
+
+    const target=pages[current-1];
+    const top=pages[current];
+
+    top.style.zIndex=8000;
+    target.style.zIndex=9000;
+
+    target.classList.add(
+        'turning',
+        'frontmost'
+    );
+
+    requestAnimationFrame(
+        ()=>requestAnimationFrame(
+            ()=>target.classList.remove('flipped')
+        )
+    );
+
+    setTimeout(
+        ()=>{
+
+            current--;
+
+            target.classList.remove(
+                'turning',
+                'frontmost'
+            );
+
+            updatePages();
+
+            turnBusy=false;
+
+            saveBook(false);
+
+            toast(
+                'PAGE '+current
+            );
+
+        },
+        980
+    )
+}
+
+function newPage(){
+
+    makeSheet(
+        pages.length,
+        ''
+    );
+
+    current=pages.length-1;
+
+    updatePages();
+
+    toast(
+        'NEW PAGE '+current
+    );
+
+    saveBook(false)
+}
+
+function pageFront(){
+    return pages[current]?.querySelector('.front')
+}
+
+/* =========================================================
+   OBJECT SYSTEM
+   ========================================================= */
+
+function objBase(
+    cls,
+    w,
+    h,
+    x=230,
+    y=220
+){
+
+    const o=document.createElement('div');
+
+    o.className='obj '+cls;
+
+    o.style.width=w+'px';
+    o.style.height=h+'px';
+
+    o.style.left=x+'px';
+    o.style.top=y+'px';
+
+    o.style.transform=
+        'rotate('+rnd(-8,8)+'deg)';
+
+    pageFront().appendChild(o);
+
+    interactive(o);
+
+    selectObj(o);
+
+    return o;
+}
+
+function addHandles(o){
+
+    ['tl','tr','bl','br'].forEach(c=>{
+
+        const h=
+            document.createElement('i');
+
+        h.className=
+            'handle '+c;
+
+        o.appendChild(h)
+    });
+
+    const line=
+        document.createElement('i');
+
+    line.className='rotline';
+
+    o.appendChild(line);
+
+    const rot=
+        document.createElement('i');
+
+    rot.className='rot';
+
+    o.appendChild(rot)
+}
+
+function selectObj(o){
+
+    if(
+        selected&&
+        selected!==o
+    ){
+        selected.classList.remove(
+            'selected'
+        )
+    }
+
+    selected=o;
+
+    o?.classList.add('selected')
+}
+
+function interactive(o){
+
+    o.addEventListener(
+        'pointerdown',
+        startInteraction
+    );
+
+    o.addEventListener(
+        'dblclick',
+        ()=>o.querySelector(
+            '[contenteditable]'
+        )?.focus()
+    )
+}
+
+function startInteraction(e){
+
+    const o=e.currentTarget;
+
+    if(
+        e.target.closest('[contenteditable]')&&
+        !e.target.classList.contains('textbox')
+    )return;
+
+    e.stopPropagation();
+
+    selectObj(o);
+
+    const r=
+        o.getBoundingClientRect();
+
+    if(
+        e.target.classList.contains(
+            'handle'
+        )
+    ){
+
+        interaction={
+            type:'resize',
+            o,
+            sx:e.clientX,
+            sy:e.clientY,
+            w:o.offsetWidth,
+            h:o.offsetHeight,
+            ratio:
+                o.offsetHeight/
+                o.offsetWidth
+        };
+
+    }else if(
+        e.target.classList.contains('rot')
+    ){
+
+        interaction={
+            type:'rotate',
+            o,
+            cx:r.left+r.width/2,
+            cy:r.top+r.height/2
+        };
+
+    }else{
+
+        interaction={
+            type:'move',
+            o,
+            sx:e.clientX,
+            sy:e.clientY,
+            l:parseFloat(o.style.left),
+            t:parseFloat(o.style.top)
+        };
+    }
+
+    o.setPointerCapture?.(
+        e.pointerId
+    )
+}
+
+document.addEventListener(
+    'pointermove',
+    e=>{
+
+        if(!interaction)return;
+
+        const i=interaction;
+        const o=i.o;
+
+        if(i.type==='move'){
+
+            o.style.left=
+                (
+                    i.l+
+                    e.clientX-
+                    i.sx
+                )+'px';
+
+            o.style.top=
+                (
+                    i.t+
+                    e.clientY-
+                    i.sy
+                )+'px';
+
+        }else if(i.type==='resize'){
+
+            const dx=
+                e.clientX-i.sx;
+
+            const dy=
+                e.clientY-i.sy;
+
+            const d=
+                Math.abs(dx)>
+                Math.abs(dy)
+                    ?dx
+                    :dy;
+
+            o.style.width=
+                Math.max(
+                    35,
+                    i.w+d
+                )+'px';
+
+            o.style.height=
+                Math.max(
+                    35,
+                    i.h+d*i.ratio
+                )+'px';
+
+        }else{
+
+            const a=
+                Math.atan2(
+                    e.clientY-i.cy,
+                    e.clientX-i.cx
+                )*180/Math.PI;
+
+            o.style.transform=
+                'rotate('+
+                (a+90)+
+                'deg)';
+        }
+    }
+);
+
+document.addEventListener(
+    'pointerup',
+    ()=>{
+        if(
+            interaction?.type==='move'&&
+            interaction.o?.classList.contains(
+                'clip'
+            )
+        ){
+
+            const o=interaction.o;
+
+            const pr=
+                pageFront()
+                .getBoundingClientRect();
+
+            const r=
+                o.getBoundingClientRect();
+
+            if(
+                Math.abs(
+                    r.left-pr.left
+                )<55
+            ){
+
+                o.style.left='-18px';
+
+            }else if(
+                Math.abs(
+                    r.right-pr.right
+                )<55
+            ){
+
+                o.style.left=
+                    (
+                        pageFront().clientWidth-
+                        o.offsetWidth+
+                        10
+                    )+'px';
+            }
+
+            o.style.zIndex=140;
+        }
+
+        interaction=null
+    }
+);
+
+document.addEventListener(
+    'pointerdown',
+    e=>{
+
+        if(
+            !e.target.closest('.obj')&&
+            !e.target.closest('#assets')&&
+            !e.target.closest('#topbar')&&
+            !e.target.closest('#formatbar')
+        ){
+
+            selected?.classList.remove(
+                'selected'
+            );
+
+            selected=null
+        }
+    }
+);
+
+/* =========================================================
+   IMAGE OBJECTS
+   ========================================================= */
+
+function imgObj(
+    src,
+    cls,
+    w,
+    h,
+    x,
+    y,
+    alt='asset'
+){
+
+    const o=
+        objBase(
+            cls,
+            w,
+            h,
+            x,
+            y
+        );
+
+    const im=
+        document.createElement('img');
+
+    im.src=src;
+    im.className='assetImg';
+    im.alt=alt;
+    im.draggable=false;
+
+    o.appendChild(im);
+
+    addHandles(o);
+
+    im.onerror=()=>{
+
+        if(cls.includes('clip')){
+
+            o.innerHTML=
+                '<div class="clipFallback"></div>';
+
+            addHandles(o);
+
+        }else if(cls.includes('tape')){
+
+            o.innerHTML=
+                '<div class="tapeFallback"></div>';
+
+            addHandles(o);
+
+        }else if(cls.includes('blood')){
+
+            o.innerHTML=
+                '<div class="bloodFallback"></div>';
+
+            addHandles(o);
+
+        }else{
+
+            o.remove()
+        }
+    };
+
+    return o
+}
+
+function addBlood(
+    x=240,
+    y=240,
+    kind='blood'
+){
+
+    const src=
+        BLOOD[
+            rnd(
+                0,
+                BLOOD.length-1
+            )
+        ];
+
+    return imgObj(
+        src,
+        kind==='blood2'
+            ?'blood blood2'
+            :'blood',
+        rnd(210,390),
+        rnd(120,270),
+        x,
+        y,
+        'blood'
+    )
+}
+
+function addTape(
+    x=220,
+    y=220
+){
+
+    const src=
+        TAPE[
+            rnd(
+                0,
+                TAPE.length-1
+            )
+        ];
+
+    return imgObj(
+        src,
+        'tape',
+        rnd(180,330),
+        rnd(52,95),
+        x,
+        y,
+        'adhesive tape strip'
+    )
+}
+
+function addClip(
+    x=410,
+    y=150
+){
+
+    const src=
+        CLIPS[
+            rnd(
+                0,
+                CLIPS.length-1
+            )
+        ];
+
+    return imgObj(
+        src,
+        'clip',
+        rnd(55,100),
+        rnd(75,125),
+        x,
+        y,
+        'paper clip'
+    )
+}
+
+function addNote(
+    x=220,
+    y=270
+){
+
+    const o=
+        objBase(
+            'noteObj',
+            310,
+            210,
+            x,
+            y
+        );
+
+    o.style.transform=
+        'rotate('+rnd(-4,4)+'deg)';
+
+    o.innerHTML=
+        '<div class="noteHead">PERSONAL NOTE</div>'+
+        '<div class="noteText" contenteditable="true">Write a note...</div>';
+
+    addHandles(o);
+
+    return o
+}
+
+function addCoffee(
+    x=300,
+    y=360
+){
+
+    const o=
+        objBase(
+            'stain',
+            210,
+            170,
+            x,
+            y
+        );
+
+    o.style.transform=
+        'rotate('+rnd(-12,12)+'deg)';
+
+    return o
+}
+
+function addHighlight(
+    x=250,
+    y=280
+){
+
+    const o=
+        objBase(
+            'textbox',
+            240,
+            45,
+            x,
+            y
+        );
+
+    o.innerHTML=
+        '<span class="highlightBlock" contenteditable="true">highlight this</span>';
+
+    addHandles(o);
+
+    return o
+}
+
+function addCross(
+    x=250,
+    y=330
+){
+
+    const o=
+        objBase(
+            'textbox',
+            230,
+            45,
+            x,
+            y
+        );
+
+    o.innerHTML=
+        '<span class="crossout" contenteditable="true">crossed out</span>';
+
+    addHandles(o);
+
+    return o
+}
+
+function addUnderline(
+    x=250,
+    y=380
+){
+
+    const o=
+        objBase(
+            'textbox',
+            230,
+            45,
+            x,
+            y
+        );
+
+    o.innerHTML=
+        '<span class="underline" contenteditable="true">underlined text</span>';
+
+    addHandles(o);
+
+    return o
+}
+
+function addCircle(
+    x=260,
+    y=300
+){
+
+    const o=
+        objBase(
+            'circleMark',
+            160,
+            100,
+            x,
+            y
+        );
+
+    addHandles(o);
+
+    return o
+}
+
+function addArrow(
+    x=330,
+    y=310
+){
+
+    const o=
+        objBase(
+            'arrow',
+            170,
+            85,
+            x,
+            y
+        );
+
+    o.innerHTML=
+        '<svg viewBox="0 0 170 85">'+
+            '<path d="M10 67 C52 19 101 20 151 23" fill="none" stroke="#29251f" stroke-width="4" stroke-linecap="round"/>'+
+            '<path d="M132 10 L154 23 L136 39" fill="none" stroke="#29251f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>'+
+        '</svg>';
+
+    addHandles(o);
+
+    return o
+}
+
+function addScribble(
+    x=150,
+    y=470
+){
+
+    const o=
+        objBase(
+            'scribble',
+            230,
+            150,
+            x,
+            y
+        );
+
+    const variants=[
+        0,
+        1,
+        2,
+        3
+    ];
+
+    const v=
+        variants[
+            rnd(
+                0,
+                variants.length-1
+            )
+        ];
+
+    let s=
+        '<svg viewBox="0 0 230 150">';
+
+    const count=
+        v===0
+            ?5
+            :v===1
+                ?9
+                :v===2
+                    ?13
+                    :7;
+
+    for(
+        let j=0;
+        j<count;
+        j++
+    ){
+
+        let y0=
+            rnd(
+                20,
+                130
+            );
+
+        let d=
+            'M '+
+            rnd(8,35)+
+            ' '+
+            y0;
+
+        for(
+            let k=0;
+            k<rnd(5,10);
+            k++
+        ){
+
+            d+=
+                ' C '+
+                rnd(35,95)+' '+
+                rnd(5,145)+' '+
+                rnd(115,175)+' '+
+                rnd(5,145)+' '+
+                rnd(195,222)+' '+
+                rnd(5,145);
+        }
+
+        const cls=
+            j%5===0
+                ?'heavy'
+                :j%3===0
+                    ?'faint'
+                    :'';
+
+        s+=
+            '<path class="'+
+            cls+
+            '" d="'+
+            d+
+            '"/>';
+    }
+
+    s+='</svg>';
+
+    o.innerHTML=s;
+
+    return o
+}
+
+function addStamp(
+    x=350,
+    y=470
+){
+
+    const o=
+        objBase(
+            '',
+            175,
+            70,
+            x,
+            y
+        );
+
+    o.innerHTML=
+        '<div class="stamp">CLASSIFIED</div>';
+
+    addHandles(o);
+
+    return o
+}
+
+function addSmiley(){
+
+    const o=
+        objBase(
+            'smiley',
+            80,
+            65,
+            rnd(100,450),
+            rnd(150,650)
+        );
+
+    o.innerHTML=':)';
+
+    addHandles(o);
+
+    return o
+}
+
+function addTextBox(){
+
+    const o=
+        objBase(
+            'textbox',
+            270,
+            75,
+            150,
+            220
+        );
+
+    o.innerHTML=
+        '<div class="textbox" contenteditable="true">Write something...</div>';
+
+    addHandles(o);
+
+    o.querySelector(
+        '[contenteditable]'
+    ).focus();
+
+    return o
+}
+
+/* =========================================================
+   ASSET DISPATCH
+   ========================================================= */
+
+function addAsset(
+    a,
+    x=260,
+    y=260
+){
+
+    if(a==='blood')
+        addBlood(x,y,'blood');
+
+    else if(a==='blood2')
+        addBlood(x,y,'blood2');
+
+    else if(a==='tape')
+        addTape(x,y);
+
+    else if(a==='clip')
+        addClip(x,y);
+
+    else if(a==='note')
+        addNote(x,y);
+
+    else if(a==='coffee')
+        addCoffee(x,y);
+
+    else if(a==='highlight')
+        addHighlight(x,y);
+
+    else if(a==='cross')
+        addCross(x,y);
+
+    else if(a==='underline')
+        addUnderline(x,y);
+
+    else if(a==='circle')
+        addCircle(x,y);
+
+    else if(a==='arrow')
+        addArrow(x,y);
+
+    else if(a==='scribble')
+        addScribble(x,y);
+
+    else if(a==='stamp')
+        addStamp(x,y)
+}
+
+$$('#assets [draggable=true]').forEach(
+    b=>{
+
+        b.addEventListener(
+            'dragstart',
+            e=>{
+                e.dataTransfer.setData(
+                    'asset',
+                    b.dataset.a
+                )
+            }
+        );
+
+        b.addEventListener(
+            'click',
+            ()=>addAsset(
+                b.dataset.a
+            )
+        );
+    }
+);
+
+/* =========================================================
+   TEXT FORMATTING
+   ========================================================= */
+
+function restoreSelection(){
+
+    if(window.savedRange){
+
+        const s=
+            window.getSelection();
+
+        s.removeAllRanges();
+
+        try{
+            s.addRange(
+                window.savedRange
+            )
+        }catch(e){}
+    }
+}
+
+document.addEventListener(
+    'selectionchange',
+    ()=>{
+
+        const s=
+            window.getSelection();
+
+        if(
+            s.rangeCount&&
+            !s.isCollapsed
+        ){
+
+            const a=
+                s.anchorNode?.parentElement;
+
+            if(
+                a?.closest(
+                    '.writing,.textbox,.noteText,.value,.ntitle,.date'
+                )
+            ){
+
+                window.savedRange=
+                    s.getRangeAt(0)
+                    .cloneRange();
+            }
+        }
+    }
+);
+
+/* =========================================================
+   TEXT COLOR FIX
+   ========================================================= */
+
+function isWhiteColor(value){
+
+    if(!value)return false;
+
+    const v=
+        String(value)
+        .trim()
+        .toLowerCase();
+
+    return [
+        'white',
+        '#fff',
+        '#ffffff',
+        'rgb(255, 255, 255)',
+        'rgba(255, 255, 255, 1)'
+    ].includes(v);
+}
+
+function normalizeNotebookText(){
+
+    const roots=document.querySelectorAll(
+        '.writing, .value, .ntitle, .date, .textbox, .noteText'
+    );
+
+    roots.forEach(root=>{
+
+        /*
+         * Default notebook text is always dark.
+         */
+        root.style.setProperty(
+            'color',
+            '#171717',
+            'important'
+        );
+
+        root.style.setProperty(
+            '-webkit-text-fill-color',
+            '#171717',
+            'important'
+        );
+
+        root.style.caretColor='#171717';
+
+        /*
+         * Repair previously saved white inline colors.
+         * Other intentional colors remain untouched.
+         */
+        root.querySelectorAll('*').forEach(el=>{
+
+            if(el.style){
+
+                if(
+                    isWhiteColor(
+                        el.style.getPropertyValue('color')
+                    )
+                ){
+                    el.style.setProperty(
+                        'color',
+                        '#171717',
+                        'important'
+                    );
+                }
+
+                if(
+                    isWhiteColor(
+                        el.style.getPropertyValue(
+                            '-webkit-text-fill-color'
+                        )
+                    )
+                ){
+                    el.style.setProperty(
+                        '-webkit-text-fill-color',
+                        '#171717',
+                        'important'
+                    );
+                }
+            }
+
+            /*
+             * Also repair old <font color="white"> elements.
+             */
+            if(
+                el.tagName==='FONT' &&
+                isWhiteColor(
+                    el.getAttribute('color')
+                )
+            ){
+                el.setAttribute(
+                    'color',
+                    '#171717'
+                );
+            }
+        });
     });
 }
 
-/* keyboard */
+function format(
+    cmd,
+    val=null
+){
 
-document.addEventListener('keydown',e=>{if(e.key==='Delete'&&selected&&isAdmin){selected.remove();selected=null;scheduleCloudSave();return}if(e.key==='Escape'){selected?.classList.remove('selected');selected=null;if(draw)stopDraw();return}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();saveBook();return}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='d'&&selected&&isAdmin){e.preventDefault();const n=selected.cloneNode(true);n.querySelectorAll('.handle,.rot,.rotline').forEach(x=>x.remove());addHandles(n);n.style.left=(parseFloat(selected.style.left)+20)+'px';n.style.top=(parseFloat(selected.style.top)+20)+'px';pageFront().appendChild(n);interactive(n);selectObj(n);scheduleCloudSave();return}if(!typing()){if(e.key==='ArrowRight')nextPage();if(e.key==='ArrowLeft')prevPage()}});
-function typing(){const a=document.activeElement;return !!(a&&(a.isContentEditable||a.tagName==='INPUT'||a.tagName==='TEXTAREA'||a.tagName==='SELECT'))}
+    /*
+     * Prevent the color picker from creating white
+     * when the selected color is white.
+     */
+    if(cmd==='foreColor' && isWhiteColor(val)){
+        val='#171717';
+    }
+
+    restoreSelection();
+
+    document.execCommand(
+        cmd,
+        false,
+        val
+    );
+
+    normalizeNotebookText();
+
+    toast(
+        cmd.toUpperCase()
+    );
+
+    saveBook(false);
+}
+
+function escapeHTML(t){
+
+    return t.replace(
+        /[&<>\"']/g,
+        m=>({
+            '&':'&amp;',
+            '<':'&lt;',
+            '>':'&gt;',
+            '\"':'&quot;',
+            "'":'&#39;'
+        }[m])
+    )
+}
+
+function roughFormat(type){
+
+    restoreSelection();
+
+    const sel=
+        window.getSelection();
+
+    if(
+        !sel.rangeCount||
+        sel.isCollapsed
+    ){
+
+        toast(
+            'TEXT AUSWÄHLEN'
+        );
+
+        return
+    }
+
+    const range=
+        sel.getRangeAt(0);
+
+    if(
+        !range.toString().trim()
+    )return;
+
+    const span=
+        document.createElement(
+            'span'
+        );
+
+    span.className=
+        type==='highlight'
+            ?'rough-highlight'
+            :type==='cross'
+                ?'rough-cross'
+                :'rough-underline';
+
+    if(type==='highlight'){
+
+        span.style.setProperty(
+            '--mark',
+            $('#highlightColor').value+'b8'
+        )
+    }
+
+    span.appendChild(
+        range.extractContents()
+    );
+
+    range.insertNode(span);
+
+    sel.removeAllRanges();
+
+    const nr=
+        document.createRange();
+
+    nr.selectNodeContents(span);
+
+    sel.addRange(nr);
+
+    window.savedRange=
+        nr.cloneRange();
+
+    normalizeNotebookText();
+
+    toast(
+        type==='highlight'
+            ?'ROUGH HIGHLIGHT'
+            :type==='cross'
+                ?'BLACK SCRIBBLE CROSS-OUT'
+                :'HAND UNDERLINE'
+    );
+
+    saveBook(false);
+}
+
+function highlightText(){
+    roughFormat('highlight')
+}
+
+function setHighlightColor(c){
+
+    restoreSelection();
+
+    document.execCommand(
+        'hiliteColor',
+        false,
+        c
+    );
+
+    saveBook(false);
+}
+
+/* =========================================================
+   DRAWING
+   ========================================================= */
+
+function drawMode(){
+
+    if(draw){
+
+        stopDraw();
+
+        return
+    }
+
+    const f=pageFront();
+
+    const c=
+        document.createElement(
+            'canvas'
+        );
+
+    c.className='drawLayer';
+
+    c.width=f.clientWidth;
+    c.height=f.clientHeight;
+
+    c.style.cssText=
+        'position:absolute;'+
+        'inset:0;'+
+        'width:100%;'+
+        'height:100%;'+
+        'z-index:35;'+
+        'touch-action:none;'+
+        'cursor:crosshair';
+
+    f.appendChild(c);
+
+    const ctx=
+        c.getContext('2d');
+
+    ctx.lineWidth=2.6;
+    ctx.lineCap='round';
+    ctx.strokeStyle='#171717';
+
+    let drawing=false;
+
+    const pos=e=>{
+
+        const r=
+            c.getBoundingClientRect();
+
+        return{
+            x:e.clientX-r.left,
+            y:e.clientY-r.top
+        }
+    };
+
+    c.onpointerdown=e=>{
+
+        drawing=true;
+
+        const p=pos(e);
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            p.x,
+            p.y
+        );
+
+        c.setPointerCapture(
+            e.pointerId
+        )
+    };
+
+    c.onpointermove=e=>{
+
+        if(!drawing)return;
+
+        const p=pos(e);
+
+        ctx.lineTo(
+            p.x,
+            p.y
+        );
+
+        ctx.stroke()
+    };
+
+    c.onpointerup=
+        ()=>drawing=false;
+
+    c.onpointercancel=
+        ()=>drawing=false;
+
+    draw=c;
+
+    toast(
+        'DRAW MODE — click PEN again to finish'
+    )
+}
+
+function stopDraw(){
+
+    if(!draw)return;
+
+    draw=null;
+
+    toast(
+        'DRAW SAVED'
+    )
+}
+
+/* =========================================================
+   PHOTOS
+   ========================================================= */
+
+function pickPhoto(){
+    $('#photoInput').click()
+}
+
+$('#photoInput').addEventListener(
+    'change',
+    e=>{
+
+        const f=
+            e.target.files[0];
+
+        if(!f)return;
+
+        const r=
+            new FileReader();
+
+        r.onload=()=>{
+            addPolaroid(
+                r.result
+            )
+        };
+
+        r.readAsDataURL(f);
+
+        e.target.value=''
+    }
+);
+
+function addPolaroid(src){
+
+    const o=
+        objBase(
+            '',
+            300,
+            350,
+            rnd(90,410),
+            rnd(130,500)
+        );
+
+    o.innerHTML=
+        '<div class="polaroid">'+
+            '<div class="tape-corner"></div>'+
+            '<img class="photo" src="'+src+'">'+
+            '<div class="film"></div>'+
+            '<div class="grain"></div>'+
+            '<div class="age"></div>'+
+            '<div class="wear"></div>'+
+            '<div class="caption" contenteditable="true">'+
+                rnd(2001,2008)+
+                ' / '+
+                String(rnd(1,12)).padStart(2,'0')+
+                ' / S-416'+
+            '</div>'+
+            '<div class="date-stamp">ARCHIVE</div>'+
+        '</div>';
+
+    addHandles(o);
+
+    toast(
+        '2000s POLAROID'
+    )
+}
+
+/* =========================================================
+   SAVE / LOAD
+   ========================================================= */
+
+function cleanHTML(p){
+
+    const c=
+        p.cloneNode(true);
+
+    c.querySelectorAll(
+        '.selected'
+    ).forEach(
+        x=>x.classList.remove(
+            'selected'
+        )
+    );
+
+    c.querySelectorAll(
+        '.handle,.rot,.rotline'
+    ).forEach(
+        x=>x.remove()
+    );
+
+    c.classList.remove(
+        'active',
+        'turning'
+    );
+
+    return c.outerHTML
+}
+
+function saveBook(show=true){
+
+    try{
+
+        /*
+         * Normalize before saving so that old white text
+         * cannot be saved again.
+         */
+        normalizeNotebookText();
+
+        localStorage.setItem(
+            'scpNotebookV8',
+            JSON.stringify({
+                current,
+                pages:
+                    pages.map(cleanHTML)
+            })
+        );
+
+        if(show)
+            toast('SAVED');
+
+    }catch(e){
+
+        console.warn(e);
+
+        toast(
+            'SAVE FAILED'
+        )
+    }
+}
+
+function loadBook(){
+
+    const s=
+        localStorage.getItem(
+            'scpNotebookV8'
+        );
+
+    if(!s){
+
+        /*
+         * Even without saved data, make sure the
+         * freshly generated pages are dark.
+         */
+        normalizeNotebookText();
+
+        return;
+    }
+
+    try{
+
+        const d=
+            JSON.parse(s);
+
+        if(
+            !d||
+            !Array.isArray(d.pages)||
+            !d.pages.length
+        ){
+
+            normalizeNotebookText();
+
+            return;
+        }
+
+        $('#pages').innerHTML=
+            d.pages.join('');
+
+        pages=[
+            ...$('#pages').children
+        ];
+
+        current=
+            Math.min(
+                Number.isFinite(d.current)
+                    ?d.current
+                    :0,
+                pages.length-1
+            );
+
+        pages.forEach(
+            bindPage
+        );
+
+        pages.forEach(
+            p=>
+                p.querySelectorAll(
+                    '.obj'
+                ).forEach(
+                    interactive
+                )
+        );
+
+        /*
+         * IMPORTANT:
+         * Repair white text from older saved versions.
+         */
+        normalizeNotebookText();
+
+        updatePages();
+
+        /*
+         * Save the repaired version immediately.
+         */
+        saveBook(false);
+
+        toast(
+            'LOADED'
+        );
+
+    }catch(e){
+
+        console.warn(
+            'Notebook konnte nicht geladen werden:',
+            e
+        );
+
+        normalizeNotebookText();
+    }
+}
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+function resetBook(){
+
+    if(
+        !confirm(
+            'Notebook wirklich zurücksetzen?'
+        )
+    )return;
+
+    localStorage.removeItem(
+        'scpNotebookV8'
+    );
+
+    init();
+
+    toast(
+        'RESET'
+    )
+}
+
+/* =========================================================
+   KEYBOARD
+   ========================================================= */
+
+document.addEventListener(
+    'keydown',
+    e=>{
+
+        if(
+            e.key==='Delete'&&
+            selected
+        ){
+
+            selected.remove();
+
+            selected=null;
+
+            saveBook(false);
+
+            return
+        }
+
+        if(e.key==='Escape'){
+
+            selected?.classList.remove(
+                'selected'
+            );
+
+            selected=null;
+
+            if(draw)
+                stopDraw();
+
+            return
+        }
+
+        if(
+            (e.ctrlKey||e.metaKey)&&
+            e.key.toLowerCase()==='s'
+        ){
+
+            e.preventDefault();
+
+            saveBook();
+
+            return
+        }
+
+        if(
+            (e.ctrlKey||e.metaKey)&&
+            e.key.toLowerCase()==='d'&&
+            selected
+        ){
+
+            e.preventDefault();
+
+            const n=
+                selected.cloneNode(true);
+
+            n.querySelectorAll(
+                '.handle,.rot,.rotline'
+            ).forEach(
+                x=>x.remove()
+            );
+
+            addHandles(n);
+
+            n.style.left=
+                (
+                    parseFloat(
+                        selected.style.left
+                    )+20
+                )+'px';
+
+            n.style.top=
+                (
+                    parseFloat(
+                        selected.style.top
+                    )+20
+                )+'px';
+
+            pageFront().appendChild(n);
+
+            interactive(n);
+
+            selectObj(n);
+
+            normalizeNotebookText();
+
+            saveBook(false);
+
+            return
+        }
+
+        if(!typing()){
+
+            if(
+                e.key==='ArrowRight'
+            )
+                nextPage();
+
+            if(
+                e.key==='ArrowLeft'
+            )
+                prevPage();
+        }
+    }
+);
+
+/* =========================================================
+   TYPING CHECK
+   ========================================================= */
+
+function typing(){
+
+    const a=
+        document.activeElement;
+
+    return !!(
+        a&&(
+            a.isContentEditable||
+            a.tagName==='INPUT'||
+            a.tagName==='TEXTAREA'||
+            a.tagName==='SELECT'
+        )
+    )
+}
+
+/* =========================================================
+   START
+   ========================================================= */
+
 init();
+
 </script>
-</body></html>
+
+</body>
+</html>
