@@ -471,7 +471,86 @@ body:not(.admin-mode) #formatbar button, body:not(.admin-mode) #formatbar select
 
 </style>
 
-<style id="original-image-cover-fix">.coverField{pointer-events:auto!important;user-select:text!important;-webkit-user-select:text!important;cursor:text!important;position:relative;z-index:50}.customImage{background:transparent!important;box-shadow:none!important}.customImage img{background:transparent!important;filter:none!important;opacity:1!important;mix-blend-mode:normal!important;object-fit:contain}#imageInput{display:none}#pencilButton.active{background:#ece8df;color:#171717}</style></head>
+<style id="original-image-cover-fix">.coverField{pointer-events:auto!important;user-select:text!important;-webkit-user-select:text!important;cursor:text!important;position:relative;z-index:50}.customImage{background:transparent!important;box-shadow:none!important}.customImage img{background:transparent!important;filter:none!important;opacity:1!important;mix-blend-mode:normal!important;object-fit:contain}#imageInput{display:none}#pencilButton.active{background:#ece8df;color:#171717}</style>
+<style id="v10-cover-writing-fix">
+/* ALL NOTEBOOK HEADINGS / LABELS: always dark on paper */
+.page-sheet .ft,
+.page-sheet .sub,
+.page-sheet .label,
+.page-sheet .ntitle,
+.page-sheet .date,
+.page-sheet .noteHead,
+.page-sheet .backmark,
+.page-sheet .pno {
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+}
+
+/* Cover information fields are real editable writing areas. */
+.coverPage .meta {
+    width:82%;
+    gap:14px;
+}
+.coverPage .row {
+    grid-template-columns:135px minmax(0,1fr);
+    align-items:end;
+    min-height:43px;
+}
+.coverPage .coverField {
+    display:block;
+    width:100%;
+    min-height:34px;
+    padding:0 6px 2px;
+    border:0;
+    border-bottom:1px solid rgba(0,0,0,.22);
+    background:rgba(255,255,255,.10);
+    color:#171717 !important;
+    -webkit-text-fill-color:#171717 !important;
+    cursor:text !important;
+    pointer-events:auto !important;
+    user-select:text !important;
+    -webkit-user-select:text !important;
+    outline:none;
+}
+.coverPage .coverField:focus {
+    background:rgba(255,255,255,.20);
+    border-bottom-color:rgba(0,0,0,.48);
+}
+.coverPage .coverField:empty:before {
+    content:"Click to enter...";
+    color:#17171755;
+    -webkit-text-fill-color:#17171755;
+}
+
+/* Never show a crosshair over the notebook. */
+#pages, #pages .face, #pages .content { cursor:default; }
+.coverPage .coverField,
+.page-sheet [contenteditable="true"] { cursor:text; }
+.drawLayer { cursor:default !important; }
+</style>
+
+<style id="v11-textbox-layer-fix">
+/* TEXT INPUT FIX: textboxes must sit on top of the page and remain clickable. */
+.page-sheet.active .face.front { position: absolute; z-index: 1; }
+.page-sheet.active .face.front .content { z-index: 2; }
+.page-sheet.active .face.front .obj { z-index: 40; pointer-events: auto !important; }
+.page-sheet.active .face.front .textbox,
+.page-sheet.active .face.front .textbox [contenteditable],
+.page-sheet.active .face.front .noteText,
+.page-sheet.active .face.front .writing,
+.page-sheet.active .face.front .coverField,
+.page-sheet.active .face.front .ntitle,
+.page-sheet.active .face.front .date,
+.page-sheet.active .face.front .value {
+    pointer-events: auto !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    cursor: text !important;
+}
+.page-sheet.active .face.front .textbox { cursor: text !important; }
+.drawLayer { pointer-events: none !important; }
+</style>
+</head>
 <body>
 <div id="deskLight"></div>
 <div class="deskFiber"></div>
@@ -492,7 +571,7 @@ body:not(.admin-mode) #formatbar button, body:not(.admin-mode) #formatbar select
 <button onclick="newPage()">+ PAGE</button>
 <button onclick="addTextBox()">TEXT</button>
 <button onclick="addNote()">NOTE</button>
-<button onclick="pickPhoto()">POLAROID</button><button data-admin-only onclick="pickImage()">IMAGE</button><button data-admin-only id="pencilButton" onclick="drawMode()">✎ PENCIL</button>
+<button onclick="pickPhoto()">POLAROID</button><button data-admin-only onclick="pickImage()">IMAGE</button>
 
 <span class="uiSep"></span>
 
@@ -585,7 +664,7 @@ function makeSheet(index,title='',cover=false){
     const back=document.createElement('div');back.className='face back';back.innerHTML='<div class="backmark">SCP FOUNDATION — PERSONNEL NOTES</div>';
     s.append(front,back);$('#pages').appendChild(s);pages.push(s);bindPage(s);return s;
 }
-function bindPage(p){p.querySelectorAll('[contenteditable]').forEach(e=>{e.contentEditable=isAdmin?'true':'false';e.style.pointerEvents=isAdmin?'auto':'none';e.style.userSelect=isAdmin?'text':'none';e.addEventListener('input',()=>{if(!isAdmin){return}scheduleCloudSave()});e.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();document.execCommand('insertText',false,'\t')}})});p.addEventListener('dragover',e=>e.preventDefault());p.addEventListener('drop',e=>{e.preventDefault();const a=e.dataTransfer.getData('asset');if(a){const r=p.querySelector('.face.front').getBoundingClientRect();addAsset(a,e.clientX-r.left,e.clientY-r.top)}});p.addEventListener('click',()=>{if(draw)stopDraw()})}
+function bindPage(p){p.querySelectorAll('[contenteditable]').forEach(e=>{const alwaysEditable=e.matches('.writing,.textbox,.noteText,.coverField,.ntitle,.date,.value');e.contentEditable=(isAdmin||alwaysEditable)?'true':'false';e.style.pointerEvents=(isAdmin||alwaysEditable)?'auto':'none';e.style.userSelect=(isAdmin||alwaysEditable)?'text':'none';e.addEventListener('input',()=>{if(isAdmin)scheduleCloudSave();else saveLocalOnly()});e.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();document.execCommand('insertText',false,'\t')}})});p.addEventListener('dragover',e=>e.preventDefault());p.addEventListener('drop',e=>{e.preventDefault();const a=e.dataTransfer.getData('asset');if(a){const r=p.querySelector('.face.front').getBoundingClientRect();addAsset(a,e.clientX-r.left,e.clientY-r.top)}});p.addEventListener('click',()=>{if(draw)stopDraw()})}
 function init(){rings();$('#pages').innerHTML='';pages=[];makeSheet(0,'',true);makeSheet(1,'INITIAL NOTES');for(let i=2;i<=8;i++)makeSheet(i,'');updatePages();loadBook();subscribeRealtime();initAuth()}
 function updatePages(){pages.forEach((p,i)=>{p.classList.toggle('flipped',i<current);p.classList.toggle('active',i===current);p.classList.remove('frontmost','behind');p.style.zIndex=i===current?1000:(i<current?100+i:10+i)});$('#pageLabel').textContent=current===0?'COVER':'PAGE '+current}
 function nextPage(){if(turnBusy||current>=pages.length-1)return;turnBusy=true;const p=pages[current],under=pages[current+1];p.classList.add('turning','frontmost');under.classList.add('under-turn');under.style.zIndex=8000;requestAnimationFrame(()=>requestAnimationFrame(()=>p.classList.add('flipped')));setTimeout(()=>{current++;p.classList.remove('turning','frontmost');under.classList.remove('under-turn');updatePages();turnBusy=false;saveBook(false);toast('PAGE '+current)},980)}
@@ -657,6 +736,12 @@ function applyState(d,notice=false){
     if(notice)toast('SYNCED FROM SERVER');
 }
 
+function saveLocalOnly(){
+    try{
+        localStorage.setItem('scpNotebookLocal',JSON.stringify({current,pages:pages.map(cleanHTML)}));
+    }catch(e){}
+}
+
 async function saveBook(show=true){
     if(!isAdmin){if(show)toast('READ ONLY');return false}
     if(remoteApplying)return false;
@@ -703,7 +788,7 @@ async function checkAdmin(s){
 function setEditorMode(admin){
     isAdmin=!!admin;
     document.body.classList.toggle('admin-mode',isAdmin);
-    $$('[contenteditable]').forEach(e=>{e.contentEditable=isAdmin?'true':'false';e.style.pointerEvents=isAdmin?'auto':'none';e.style.userSelect=isAdmin?'text':'none';});
+    $$('[contenteditable]').forEach(e=>{const alwaysEditable=e.matches('.writing,.textbox,.noteText,.coverField,.ntitle,.date,.value');e.contentEditable=(isAdmin||alwaysEditable)?'true':'false';e.style.pointerEvents=(isAdmin||alwaysEditable)?'auto':'none';e.style.userSelect=(isAdmin||alwaysEditable)?'text':'none';});
     $('#authButton').textContent=isAdmin?'ADMIN / LOGOUT':'ADMIN LOGIN';
     $('#authStatus').textContent=isAdmin?'ADMIN MODE':'READ ONLY';
     if(!isAdmin&&draw)stopDraw();
