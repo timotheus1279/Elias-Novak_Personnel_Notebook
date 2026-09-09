@@ -1663,6 +1663,61 @@ button.danger{
     display:none
 }
 
+
+/* =========================================================
+   CUSTOM IMAGE / PENCIL
+   ========================================================= */
+
+.drawSep{
+    width:1px;
+    height:22px;
+    background:#4a4d4c;
+    margin:0 3px;
+}
+
+.drawLabel{
+    color:#777d7b;
+    font:700 8px Inter,sans-serif;
+    letter-spacing:1.2px;
+    padding:0 2px;
+}
+
+#drawSize{
+    min-width:78px;
+    height:28px;
+    border:1px solid #484c4b;
+    border-radius:3px;
+    background:#242727;
+    color:#cfd2d0;
+    font:9px Inter,sans-serif;
+    padding:0 5px;
+}
+
+#pencilButton.active{
+    background:#ece8df;
+    color:#171717;
+    border-color:#aaa;
+}
+
+.drawingObj{
+    z-index:35;
+}
+
+.drawingObj img{
+    object-fit:contain;
+    pointer-events:none;
+    user-select:none;
+}
+
+.customImage{
+    object-fit:contain !important;
+}
+
+body.viewerMode #pencilButton{
+    opacity:.38;
+    cursor:not-allowed;
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
@@ -1730,6 +1785,8 @@ button.danger{
         <button onclick="addTextBox()">TEXT</button>
         <button onclick="addNote()">NOTE</button>
         <button onclick="pickPhoto()">POLAROID</button>
+<button onclick="pickImage()">IMAGE</button>
+<button id="pencilButton" onclick="drawMode()">✎ PENCIL</button>
 
         <span class="uiSep"></span>
 
@@ -1790,6 +1847,16 @@ button.danger{
     <button onclick="format('justifyLeft')">L</button>
     <button onclick="format('justifyCenter')">C</button>
     <button onclick="format('justifyRight')">R</button>
+<span class="drawSep"></span>
+<span class="drawLabel">PENCIL</span>
+<input class="colorpick drawColor" id="drawColor" type="color" value="#171717" title="Pencil color">
+<select id="drawSize" title="Pencil thickness">
+    <option value="1.5">THIN</option>
+    <option value="3" selected>MEDIUM</option>
+    <option value="5">THICK</option>
+    <option value="8">HEAVY</option>
+    <option value="12">MARKER</option>
+</select>
 
 </div>
 
@@ -1922,6 +1989,7 @@ button.danger{
 <div id="toast"></div>
 
 <input id="photoInput" type="file" accept="image/*">
+<input id="imageInput" type="file" accept="image/*">
 
 <script>
 
@@ -2191,6 +2259,31 @@ function bindPage(p){
             const a=
                 e.dataTransfer.getData('asset');
 
+            /*
+             * External image files dropped directly onto the page.
+             */
+            const files=[
+                ...(e.dataTransfer?.files||[])
+            ];
+
+            const imageFile=files.find(
+                f=>f.type.startsWith('image/')
+            );
+
+            if(imageFile){
+
+                if(!isAdmin)return;
+
+                const reader=new FileReader();
+
+                reader.onload=()=>{
+                    addImage(reader.result);
+                };
+
+                reader.readAsDataURL(imageFile);
+                return;
+            }
+
             if(a){
 
                 const r=
@@ -2209,8 +2302,18 @@ function bindPage(p){
 
     p.addEventListener(
         'click',
-        ()=>{
-            if(draw)stopDraw()
+        e=>{
+            /*
+             * Pencil mode is ended with the PENCIL button,
+             * Escape, or a new tool. Do not cancel it after
+             * every stroke because the click bubbles to the page.
+             */
+            if(
+                draw &&
+                !e.target.closest('.drawLayer')
+            ){
+                stopDraw();
+            }
         }
     );
 }
@@ -3531,116 +3634,265 @@ function setHighlightColor(c){
    DRAWING
    ========================================================= */
 
+function getDrawSettings(){
+    return {
+        color:
+            document.getElementById('drawColor')?.value ||
+            '#171717',
+        size:
+            Number(
+                document.getElementById('drawSize')?.value
+            ) || 3
+    };
+}
+
 function drawMode(){
 
+    if(!isAdmin){
+        toast('ADMIN ACCESS REQUIRED');
+        return;
+    }
+
     if(draw){
-
         stopDraw();
-
-        return
+        return;
     }
 
     const f=pageFront();
 
-    const c=
-        document.createElement(
-            'canvas'
-        );
+    if(!f){
+        toast('NO ACTIVE PAGE');
+        return;
+    }
+
+    const c=document.createElement('canvas');
 
     c.className='drawLayer';
 
-    c.width=f.clientWidth;
-    c.height=f.clientHeight;
+    const w=Math.max(1,Math.round(f.clientWidth));
+    const h=Math.max(1,Math.round(f.clientHeight));
+
+    const dpr=Math.max(1,window.devicePixelRatio||1);
+
+    c.width=Math.round(w*dpr);
+    c.height=Math.round(h*dpr);
 
     c.style.cssText=
         'position:absolute;'+
         'inset:0;'+
         'width:100%;'+
         'height:100%;'+
-        'z-index:35;'+
+        'z-index:10000;'+
         'touch-action:none;'+
-        'cursor:crosshair';
+        'cursor:crosshair;';
 
     f.appendChild(c);
 
-    const ctx=
-        c.getContext('2d');
+    const ctx=c.getContext('2d');
 
-    ctx.lineWidth=2.6;
+    ctx.scale(dpr,dpr);
     ctx.lineCap='round';
-    ctx.strokeStyle='#171717';
+    ctx.lineJoin='round';
 
     let drawing=false;
+    let last=null;
 
     const pos=e=>{
-
-        const r=
-            c.getBoundingClientRect();
-
-        return{
+        const r=c.getBoundingClientRect();
+        return {
             x:e.clientX-r.left,
             y:e.clientY-r.top
-        }
+        };
     };
 
-    c.onpointerdown=e=>{
+    const begin=e=>{
+        e.preventDefault();
+        e.stopPropagation();
 
         drawing=true;
+        last=pos(e);
 
-        const p=pos(e);
+        const s=getDrawSettings();
+
+        ctx.strokeStyle=s.color;
+        ctx.lineWidth=s.size;
 
         ctx.beginPath();
+        ctx.moveTo(last.x,last.y);
 
-        ctx.moveTo(
-            p.x,
-            p.y
-        );
-
-        c.setPointerCapture(
-            e.pointerId
-        )
+        c.setPointerCapture?.(e.pointerId);
     };
 
-    c.onpointermove=e=>{
-
+    const move=e=>{
         if(!drawing)return;
+
+        e.preventDefault();
 
         const p=pos(e);
 
-        ctx.lineTo(
-            p.x,
-            p.y
-        );
+        ctx.lineTo(p.x,p.y);
+        ctx.stroke();
 
-        ctx.stroke()
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y);
+
+        last=p;
     };
 
-    c.onpointerup=
-        ()=>drawing=false;
+    const end=e=>{
+        if(!drawing)return;
 
-    c.onpointercancel=
-        ()=>drawing=false;
+        drawing=false;
 
-    draw=c;
+        if(e?.pointerId!=null){
+            try{
+                c.releasePointerCapture?.(e.pointerId);
+            }catch(_){}
+        }
 
-    toast(
-        'DRAW MODE — click PEN again to finish'
-    )
+        last=null;
+    };
+
+    c.addEventListener('pointerdown',begin);
+    c.addEventListener('pointermove',move);
+    c.addEventListener('pointerup',end);
+    c.addEventListener('pointercancel',end);
+
+    draw={
+        canvas:c,
+        page:f,
+        width:w,
+        height:h
+    };
+
+    document.getElementById('pencilButton')?.classList.add('active');
+
+    toast('PENCIL ON — draw freely');
 }
 
 function stopDraw(){
 
     if(!draw)return;
 
+    const state=draw;
+    const c=state.canvas;
+
+    /*
+     * Find the smallest transparent-free rectangle.
+     * This prevents a drawing from becoming a giant full-page
+     * invisible object that would block text editing.
+     */
+    let bounds=null;
+
+    try{
+        const ctx=c.getContext('2d');
+        const image=ctx.getImageData(
+            0,
+            0,
+            c.width,
+            c.height
+        );
+
+        const data=image.data;
+        let minX=c.width;
+        let minY=c.height;
+        let maxX=-1;
+        let maxY=-1;
+
+        for(let y=0;y<c.height;y++){
+            for(let x=0;x<c.width;x++){
+                const a=data[(y*c.width+x)*4+3];
+
+                if(a>8){
+                    if(x<minX)minX=x;
+                    if(y<minY)minY=y;
+                    if(x>maxX)maxX=x;
+                    if(y>maxY)maxY=y;
+                }
+            }
+        }
+
+        if(maxX>=0){
+            const pad=18;
+            minX=Math.max(0,minX-pad);
+            minY=Math.max(0,minY-pad);
+            maxX=Math.min(c.width-1,maxX+pad);
+            maxY=Math.min(c.height-1,maxY+pad);
+
+            const cropW=maxX-minX+1;
+            const cropH=maxY-minY+1;
+
+            const crop=document.createElement('canvas');
+            crop.width=cropW;
+            crop.height=cropH;
+
+            crop.getContext('2d').drawImage(
+                c,
+                minX,
+                minY,
+                cropW,
+                cropH,
+                0,
+                0,
+                cropW,
+                cropH
+            );
+
+            bounds={
+                src:crop.toDataURL('image/png'),
+                x:minX,
+                y:minY,
+                w:cropW,
+                h:cropH
+            };
+        }
+    }catch(e){
+        console.warn('Could not crop drawing:',e);
+    }
+
+    c.remove();
     draw=null;
 
-    toast(
-        'DRAW SAVED'
-    )
+    document.getElementById('pencilButton')?.classList.remove('active');
+
+    if(!bounds){
+        toast('DRAWING EMPTY');
+        return;
+    }
+
+    /*
+     * Convert the canvas into a normal notebook object so it
+     * survives localStorage and Supabase JSON storage.
+     */
+    const dpr=Math.max(1,window.devicePixelRatio||1);
+
+    const o=objBase(
+        'drawingObj',
+        Math.max(12,bounds.w/dpr),
+        Math.max(12,bounds.h/dpr),
+        bounds.x/dpr,
+        bounds.y/dpr
+    );
+
+    o.style.transform='none';
+
+    o.innerHTML=
+        '<img class="assetImg" '+
+        'src="'+bounds.src+'" '+
+        'alt="Freehand drawing">';
+
+    addHandles(o);
+    selectObj(o);
+
+    saveBook(false);
+
+    toast('DRAWING SAVED');
 }
 
 /* =========================================================
    PHOTOS
+   ========================================================= */
+
    ========================================================= */
 
 function pickPhoto(){
@@ -3669,6 +3921,137 @@ $('#photoInput').addEventListener(
 
         e.target.value=''
     }
+);
+
+function pickImage(){
+
+    if(!isAdmin){
+        toast('ADMIN ACCESS REQUIRED');
+        return;
+    }
+
+    document.getElementById('imageInput')?.click();
+}
+
+function addImage(src){
+
+    if(!isAdmin){
+        toast('ADMIN ACCESS REQUIRED');
+        return;
+    }
+
+    if(!src)return;
+
+    const o=objBase(
+        'customImage',
+        280,
+        220,
+        rnd(90,410),
+        rnd(130,500)
+    );
+
+    o.style.transform=
+        'rotate('+rnd(-4,4)+'deg)';
+
+    o.innerHTML=
+        '<img class="assetImg" src="'+src+'" alt="Notebook image">';
+
+    addHandles(o);
+
+    const img=o.querySelector('img');
+
+    img.onload=()=>{
+        /*
+         * Scale large pasted/uploaded images down while keeping
+         * their original aspect ratio.
+         */
+        const maxW=360;
+        const maxH=300;
+
+        const ratio=Math.min(
+            1,
+            maxW/img.naturalWidth,
+            maxH/img.naturalHeight
+        );
+
+        if(Number.isFinite(ratio)&&ratio>0){
+            o.style.width=
+                Math.max(40,img.naturalWidth*ratio)+'px';
+
+            o.style.height=
+                Math.max(40,img.naturalHeight*ratio)+'px';
+        }
+
+        saveBook(false);
+    };
+
+    selectObj(o);
+
+    toast('IMAGE ADDED');
+    return o;
+}
+
+document.getElementById('imageInput')?.addEventListener(
+    'change',
+    e=>{
+        const f=e.target.files?.[0];
+
+        if(!f)return;
+
+        if(!f.type.startsWith('image/')){
+            toast('IMAGE FILE REQUIRED');
+            e.target.value='';
+            return;
+        }
+
+        const r=new FileReader();
+
+        r.onload=()=>{
+            addImage(r.result);
+        };
+
+        r.readAsDataURL(f);
+        e.target.value='';
+    }
+);
+
+/*
+ * Direct clipboard image support:
+ * Copy a PNG/JPG/WebP/etc. and press CTRL+V while the
+ * notebook is open. The image is inserted as a normal,
+ * movable/resizable notebook object — NOT as a Polaroid.
+ */
+document.addEventListener(
+    'paste',
+    e=>{
+        if(!isAdmin)return;
+
+        const items=[
+            ...(e.clipboardData?.items||[])
+        ];
+
+        const item=items.find(
+            x=>x.type.startsWith('image/')
+        );
+
+        if(!item)return;
+
+        e.preventDefault();
+
+        const file=item.getAsFile();
+
+        if(!file)return;
+
+        const r=new FileReader();
+
+        r.onload=()=>{
+            addImage(r.result);
+        };
+
+        r.readAsDataURL(file);
+        toast('IMAGE PASTED');
+    },
+    true
 );
 
 function addPolaroid(src){
@@ -3905,6 +4288,10 @@ document.addEventListener(
         }
 
         if(e.key==='Escape'){
+
+            if(draw){
+                stopDraw();
+            }
 
             selected?.classList.remove(
                 'selected'
@@ -4434,6 +4821,8 @@ function applyAccessMode(){
         '[onclick="addTextBox()"]',
         '[onclick="addNote()"]',
         '[onclick="pickPhoto()"]',
+        '[onclick="pickImage()"]',
+        '#pencilButton',
         '[onclick="saveBook()"]',
         '[onclick="resetBook()"]'
 
@@ -5106,6 +5495,9 @@ const _addNote =
 const _pickPhoto =
     pickPhoto;
 
+const _pickImage =
+    pickImage;
+
 const _addAsset =
     addAsset;
 
@@ -5202,6 +5594,24 @@ pickPhoto=function(){
 
     _pickPhoto();
 };
+
+/*
+ * GENERIC IMAGE
+ */
+pickImage=function(){
+
+    if(!isAdmin){
+
+        toast(
+            'ADMIN ACCESS REQUIRED'
+        );
+
+        return;
+    }
+
+    _pickImage();
+};
+
 
 
 /*
@@ -5574,6 +5984,27 @@ async function initializeAccess(){
     }
 }
 
+
+
+document.getElementById('drawColor')?.addEventListener(
+    'input',
+    e=>{
+        if(draw){
+            const ctx=draw.canvas.getContext('2d');
+            ctx.strokeStyle=e.target.value;
+        }
+    }
+);
+
+document.getElementById('drawSize')?.addEventListener(
+    'change',
+    e=>{
+        if(draw){
+            const ctx=draw.canvas.getContext('2d');
+            ctx.lineWidth=Number(e.target.value)||3;
+        }
+    }
+);
 
 /* =========================================================
    START ACCESS SYSTEM
